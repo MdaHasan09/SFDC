@@ -1,0 +1,731 @@
+Salesforce Integration
+Table of Contents
+IMPORTANT TOPICS	4
+1)	INTRODUCTION TO CRM	4
+Sales Cloud	7
+Editions	8
+2)DATA MODELLING	11
+Objects	15
+Fields	19
+Limits for Custom Picklists	29
+Documents	29
+Formulas	30
+Rollup Summary	42
+Validation Rules	43
+Duplicate Rules	47
+Relationships	48
+Master-detail relation ship	49
+Lookup relationship	53
+Junction Object	55
+Hierarchical relation	56
+External Relation	57
+3) USER INTERFACE	58
+Tabs	58
+Search Layout	61
+Page layout	64
+Mini page layouts	64
+Record Types	65
+Compact page layouts	67
+Related Lists	68
+List View	69
+Lightning App Builder	70
+4)MANAGING DATA ACCESS	70
+Profile	71
+Permission Set	76
+Roles Hierarchy	78
+User Management	80
+Login History and IP white Listing	93
+5) SECURITY	94
+Object level security	95
+Record level Security	96
+OWD	99
+Role Hierarchies	101
+Sharing Rules	102
+Team Sharing	109
+Territory Sharing	110
+Field level security	111
+6)AUTOMATING BUSINESS PROCESS	114
+Business process	114
+Workflow	116
+Evolution Criteria	118
+Workflow Actions	119
+Immediate Actions	119
+Time-based Actions	125
+Process Builder	127
+Lightning Flow	128
+Assignment rules	131
+Approval Process	132
+Jump Start Wizard	134
+Standard Step Wizard	135
+7) AUDIT AND TROUBLESHOOT	143
+Debug Logs	143
+Email Logs	145
+Audit Trails	145
+Field History tracking	146
+8)DATA MANAGEMENT	147
+Data Import	148
+Data Import Wizard	149
+Data Loader	150
+Data Export	152
+External ID	155
+9)REPORTS AND DASHBOARD	159
+Reports	159
+Dash Boards	164
+
+
+
+
+
+Important topics 
+	Relationship
+	Security (Profile, Permission, OWD and sharing rules) 
+	Workflow, process builder approval process
+	Data Management 
+	
+1)	JSON
+
+JSON- Java script object notation.
+o	It is the one format for exchanging the data across the network.
+o	This will transfer the data and meaning of the data,
+o	It is represented in the form of name- value pair.
+o	It is platform independent and language independent.
+o	Self-describe structure.
+o	Entire data is represented in the form of object.
+o	Syntax:  { “name”: “value”}
+Example: {“name”: “naresh”, “age”:27, “city”: “Bang” , “Sal”: 300000, “Activeflag”: True, “DOB”: “1993-06-10”}
+	 
+o	Array of element: {“Name”: [value1,value2,…]
+Example: {“names”: [“nar”, “rus”], “Ages”:[27,2]}
+o	Object: {“name”:{fld1,fld,……}}
+Example: 
+Public class example{
+	Public string name;
+	Public Integer age;
+}
+
+Ex: {“example”:{“name”: “naresh”, “age”: 27}}
+ 
+
+ 
+ 
+
+
+
+JSON class
+o	It is a predefined apex class.
+o	It is defined under the namespace of system.
+o	This class contains methods for serializing Apex objects into JSON format and deserializing JSON content that was serialized using the serialize method in this class inti Apex objects.
+Methods:
+1)	serialize(object): Serializes Apex objects into JSON content.
+Syntax: public static String serialize(Object objectToSerialize)
+
+Ex: 
+Wrapper class:
+ 
+
+
+ 
+result:
+ 
+
+2)	serialize(object, supressnullvales): It will convert Apex objects into the form of String. If we set suppress null vales flag as true then null values in the object will not display in the JSON string.
+Syntax: public static String serialize(Object objectToSerialize, true/false)
+
+Ex:
+ 
+
+Result:
+ 
+
+3)	serializepretty(object): In concept wise there is no difference b/w serialize and serialize pretty the only difference is in serialize Pretty we will get one space b/w elements.
+ 
+4)	serializepretty(object, supressnullvalues): In concept wise there is no difference b/w serialize and serialize pretty the only difference is in serialize Pretty we will get one space b/w elements.
+5)	Deserialize(parm1,parm2): 
+o	This method will convert Json string in to Apex object.
+o	Parm1: JSON string which we want to deserialize
+o	Param2: Type of apex class to which you want to convert.
+o	This method will give you object format, which we have to type cast to original format.
+While deserialize we need to mention that what in which format we need to deserialize the JSOn string and need to mention the class so that it can convert in to that type.
+ 
+
+Ex:
+ 
+Result:
+ 
+6)	Deserializestrict(parm1,parm2): 
+o	This method will deserialize the JSON string into specified apex class.
+o	Every element in the JSON string should be available in apex class inti which we are converting then deserialize will happen else error will thrown.
+Ex:
+ 
+7)	deserializeUntyped(JSONstring): suppose when we don’t know to which format we need to convert the data then will use this method.
+o	This method will convert JSON string into the form of Map.
+o	Json string name field will the Key in the map.
+o	Json string value will be the value in the map.
+ex:
+ 
+Result:
+ 
+8)	JSON generator: by using this method we can generate the string dynamically.
+Ex1: 
+ 
+
+Result: 
+ 
+
+Ex2: whenever we are trying to insert a record if any error occurs we printing the error dynamically.
+Apex code:
+ 
+VF code:
+ 
+
+Result:
+ 
+
+Ex3: based search if records fount display count and related record information. 
+VF page:
+ 
+
+Apex class:
+ 
+
+Result: if we use above apex code unwanted data will also written in the string to rectify that see below apex code with minor changes.
+ 
+Apex code :
+ 
+
+Result: with the above code we will get if string by avoiding the unwanted data.
+ 
+
+9)	Parser: This Method is used to convert the JSON string into “ “ dynamically.
+
+Ex:
+Apex:
+ 
+VF:
+ 
+Result:
+
+ 
+
+Ex2:
+Apex:
+ 
+VF:
+ 
+
+Result:
+ 
+
+2)	XML
+o	XML stands for Extensible markup language.
+o	XML is self-describing.
+XML tags are case sensitive:
+ 
+XML tags Must be properly Nested:
+ 
+Serialize the XML
+Converting data in to the form of XML string.
+XML In SF Apex:
+ 
+
+ 
+ 
+ 
+
+Ex:  
+Apex code:
+ 
+VF page:
+ 
+Result:
+ 
+
+Ex2: if we want set attributes and Comments to the XML tag refer below example.
+Apex code:
+ 
+Result:
+ 
+
+DeSerialize the XML
+
+
+VF page
+
+ 
+
+Apex code:
+ 
+
+Result:
+ 
+
+
+
+
+3)	HTTP
+
+o	HTTP stands for Hyper text transfer protocaol.
+ 
+ 
+URL:
+ 
+ 
+HTTP protocol:
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+o	HTTP is the connectionless because First client establish a connect to the server and make a request then server close connection and process the request and establish a connection to client and send response to client.
+ 
+
+HTTP request message format:
+ 
+Example:
+ 
+
+o	Request line : It will tell you the what type of request it is like Get, Post, PUT or delete and path of the resource.
+o	Request Header:  It will have authentication information or format of request and response. Suppose am sending data JSON string and am expecting response in XML for this will mention the request header.
+o	Request message body:  It is optional. If we want send any data that will exist in body.
+Example:
+ 
+
+
+HTTP response message format:
+ 
+ 
+
+ 
+ 
+ 
+
+
+HTTP in SF:
+
+HTTP class:
+ 
+ 
+ 
+HTTP request class:
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+HTTP response class:
+
+ 
+ 
+ 
+ 
+ 
+
+Response codes:
+ 
+
+
+Web services calls using HTTP
+
+Example1:
+If we want to send any HTTP request to Third party system then we need to register that third party URL in Remote site settings.
+Navigation: 
+Administrator-> security controls->Remote site settings-> then register the usrl.
+ 
+
+Apex code: In below code we will make a request to third party and get response. From response we displaying the header keys in VF page.
+
+
+ 
+ 
+
+VF code:
+ 
+
+Output:
+ 
+
+Example2: In below code we will make a request to third party and get response. From response we are displaying the header keys , header values and response body in VF page.
+
+Apex code:
+ 
+ 
+
+VF page:
+ 
+
+Result:
+ 
+
+Example3: In below code we will make a request to third party and get response. From response we we parsing the XML and  displaying the header keys, values and XML response body  in VF page.
+Apex code:
+ 
+ 
+ 
+
+VF page:
+ 
+Result:
+ 
+
+Example4: In below code we will make a request to third party and get response. From response we are parsing the JSON and  displaying the header keys, values and Pincode   in VF page.
+	For Json response, if we want to use entire response then if we have wrapper class already then we can take values easily else parse the wrapper class dynamically in the class and use the entire response. Line no 26,  35 to 53
+	From the Json response if we want specific token then use the Parser and get the specific token value from the lines 27 to 34. 
+ 
+ 
+ 
+
+Vf page:
+ 
+Result:
+ 
+
+Example5: HTTP request with Authentication and Web service call in Batch Apex
+If we want to make web service calls in batch Apex  then we need to Implement “Database.Allowcallouts” Interface.
+ 
+Apex code: below code will fetch the all opportunities and make a request to the third party to know the current USD to INR value and update the INR values field in all opportunities.
+In below code Apikey is the authentication key which is provided by the Third party system to access the third party system.
+Within ever execute Method we can make 100 web service calls.
+
+ 
+ 
+ 
+
+Example6: HTTP request with Authentication and Web service call in Schedule Apex
+In schedule apex synchronous web service call are not supported because of we can’t guarantee that schedule job will execute at the specific time or not because of schedule job will execute based on the resource availability in queue so That’s the reason synchronous web service call are not supported in schedule Apex.
+If we want to make web service calls in schedule apex then make it asynchronously(using Future method).  
+Schedule code:
+ 
+Future code: If we want call web service from the future method then we need enable “@future(callout=True)” . future method will accept only primitive data types( Except Sobject), if we have requirement to pass list of records to future method from schedule then convert the list of records in to string and pass using JSON serialize.
+Suppose we have scheduled a job and it’s running, if tried to make any changed in the related Apex code it won’t save until we need to delete the existing and save the changes.
+
+Within ever Future Method we can make 100 web service calls.
+
+ 
+ 
+
+Example7: HTTP request with Authentication and Web service call in Trigger
+If we trying to make a web service call from Trigger it will through below error. From triggers we can’t make web service calls because to get response in web service call minimum  1 sec to Max 2 mins supposed to get the response it takes 1 min so we are holding operation 1 min so it will 1 min to save record. So that the reason trigger will not support synchronous web service call. So, triggers will support only asynchronous(using @Future(callout = true)) web service calls.
+
+future method will accept only primitive data types( Except Sobject), if we have requirement to pass list of records(Sobject records) to future method from schedule then convert the list of records in to string and pass using JSON serialize or else List of ID’s.
+Within ever Future Method we can make 100 web service calls.
+
+Trigger code:
+ 
+
+Future code:
+ 
+ 
+
+4)	Rest API
+You can expose your Apex class and methods so that external applications can access your code and your application through the REST architecture. This is done by defining your Apex class with the @RestResource annotation to expose it as a REST resource. Similarly, add annotations to your methods to expose them through REST. For example, you can add the @HttpGet annotation to your method to expose it as a REST resource that can be called by an HTTP GET request
+In Rest API, resource will be exchanges b/w client and server by using the URL and will follow any one of the Authentication.
+
+ 
+
+These are the classes containing methods and properties you can use with Apex REST.
+
+Class			Description
+RestContext Class		Contains the RestRequest and RestResponse objects.
+request	Use the System.RestRequest class to access and pass request data in a RESTful Apex method.
+response	Represents an object used to pass data from an Apex RESTful Web service method to an HTTP response.
+
+Authentication
+Apex REST supports these authentication mechanisms:
+1)	OAuth 2.0
+2)	Session ID
+
+Rest Context Class
+Contains the RestRequest and RestResponse objects. Use the System.RestContext class to access the RestRequest and RestResponse objects in your Apex REST methods.
+o	This is standard class in salesforce and defined under System namespace.
+o	Contains the RestRequest and RestResponse objects.
+RestContext Properties
+The following are properties for RestContext.
+o	Request: Returns the RestRequest for your Apex REST method.
+Syntax: public RestRequest request {get; set;}
+o	Response:Returns the RestResponse for your Apex REST method.
+Syntax: public RestResponse response {get; set;}
+
+Rest Request Class
+
+This class contains all the data about the request message. Use the System.RestRequest class to access and pass request data in a RESTful Apex method. This is standard class in salesforce and defined under System namespace.
+
+Rest Request methods:
+Note:While the RestRequest List and Map properties are read-only, their contents are read-write. You can modify them by calling the collection methods directly or you can use of the associated RestRequest methods shown in the previous table.
+Headers
+Returns the headers that are received by the request. And it is in the form of Map.
+syntax:public Map<String, String> headers {get; set;}
+
+httpMethod
+Returns one of the supported HTTP request methods.
+Syntax: public String httpMethod {get; set;}
+Possible values returned:
+DELETE
+GET
+HEAD
+PATCH
+POST
+PUT
+params
+Returns the parameters that are received by the request.
+Syntax: public Map <String, String> params {get; set;}
+remoteAddress
+Returns the IP address of the client making the request.
+Syntax: public String remoteAddress {get; set;}
+
+
+requestBody
+Returns or sets the body of the request. If the Apex method has no parameters, then Apex REST copies the HTTP request body into the RestRequest.requestBody property. If there are parameters, then Apex REST attempts to deserialize the data into those parameters and the data won't be deserialized into the RestRequest.requestBody property.
+
+Syntax: public Blob requestBody {get; set;}
+
+requestURI
+This is the Endpoint URL which request is made using HTTPRequest.
+Syntax: public String requestURI {get; set;}
+Example
+For example, if the request string is https://instance.salesforce.com/services/apexrest/Account/ then the requestURI is /Account/.
+
+resourcePath
+Returns the REST resource path for the request.
+public String resourcePath {get; set;}
+Example
+For example, if the Apex REST class defines a urlMapping of /MyResource/*, the resourcePath property returns /services/apexrest/MyResource/*.
+
+
+Rest Response class
+Represents an object used to pass data from an Apex RESTful Web service method to an HTTP response.
+RestResponse Properties
+responseBody
+Returns or sets the body of the response. The response is either the serialized form of the method return value or it's the value of the responseBody property based on the following rules:
+o	If the method returns void, then Apex REST returns the response in the responseBody property.
+o	If the method returns a value, then Apex REST serializes the return value as the response.
+Syntax: public Blob responseBody {get; set;}
+
+headers
+Returns the headers to be sent to the response.
+syntax: public Map<String, String> headers {get; set;}
+
+statusCode
+Returns or sets the response status code.
+syntax: public Integer statuscode {get; set;}
+
+
+Apex REST Annotations
+Use these annotations to expose an Apex class as a RESTful Web service.
+o	@ReadOnly
+o	@RestResource(urlMapping='/yourUrl')
+o	@HttpDelete
+o	@HttpGet
+o	@HttpPatch
+o	@HttpPost
+o	@HttpPut
+ReadOnly Annotation:
+The @ReadOnly annotation allows you to perform less restrictive queries against the Lightning Platform database by increasing the limit of the number of returned rows for a request to 100,000. All other limits still apply. The annotation blocks the following operations within the request: DML operations, calls to System.schedule, and enqueued asynchronous Apex jobs.
+
+The @ReadOnly annotation is available for REST and SOAP Web services and the Schedulable interface. To use the @ReadOnly annotation, the top level request must be in the schedule execution or the Web service invocation. For example, if a Visualforce page calls a Web service that contains the @ReadOnly annotation, the request fails because Visualforce is the top level request, not the Web service.
+
+Visualforce pages can call controller methods with the @ReadOnly annotation, and those methods will run with the same relaxed restrictions. To increase other Visualforce-specific limits, such as the size of a collection that can be used by an iteration component like <apex:pageBlockTable>, you can set the readonly attribute on the <apex:page> tag to true.
+
+RestResource Annotation
+The @RestResource annotation is used at the class level and enables you to expose an Apex class as a REST resource.
+These are some considerations when using this annotation:
+o	The URL mapping is relative to https://instance.salesforce.com/services/apexrest/.
+o	A wildcard character (*) may be used.
+o	The URL mapping is case-sensitive. A URL mapping for my_url will only match a REST resource containing my_url and not My_Url.
+o	To use this annotation, your Apex class must be defined as global.
+URL Guidelines
+URL path mappings are as follows:
+o	The path must begin with a '/'
+o	If an '*' appears, it must be preceded by '/' and followed by '/', unless the '*' is the last character, in which case it need not be followed by '/'
+The rules for mapping URLs are:
+o	An exact match always wins.
+o	If no exact match is found, find all the patterns with wildcards that match, and then select the longest (by string length) of those.
+o	If no wildcard match is found, an HTTP response status code 404 is returned.
+The URL for a namespaced classes contains the namespace. For example, if your class is in namespace abc and the class is mapped to your_url, then the API URL is modified as follows: https://instance.salesforce.com/services/apexrest/abc/your_url/. In the case of a URL collision, the namespaced class is always used.
+
+HttpDelete Annotation: The @HttpDelete annotation is used at the method level and enables you to expose an Apex method as a REST resource. This method is called when an HTTP DELETE request is sent, and deletes the specified resource. To use this annotation, your Apex method must be defined as global static.
+HttpGet Annotation: The @HttpGet annotation is used at the method level and enables you to expose an Apex method as a REST resource. This method is called when an HTTP GET request is sent, and returns the specified resource. 
+These are some considerations when using this annotation:
+To use this annotation, your Apex method must be defined as global static.
+Methods annotated with @HttpGet are also called if the HTTP request uses the HEAD request method.
+HttpPatch Annotation: The @HttpPatch annotation is used at the method level and enables you to expose an Apex method as a REST resource. This method is called when an HTTP PATCH request is sent, and updates the specified resource. To use this annotation, your Apex method must be defined as global static.
+HttpPost Annotation: The @HttpPost annotation is used at the method level and enables you to expose an Apex method as a REST resource. This method is called when an HTTP POST request is sent, and creates a new resource. To use this annotation, your Apex method must be defined as global static.
+HttpPut Annotation: The @HttpPut annotation is used at the method level and enables you to expose an Apex method as a REST resource. This method is called when an HTTP PUT request is sent, and creates or updates the specified resource. To use this annotation, your Apex method must be defined as global static.
+
+
+Rest Examples
+Example: if some make request to salesforce then SF will send response. In below example if any send request in @HTTPGet method it will prepare a response and send. To test this example use work bench.
+ 
+ 
+
+Work bench:
+ 
+Example2: If ant request sent to to below highlighted URL with GET method then Invoke method will execute if Insertion success then it will give response as success else failure with errors.
+
+ 
+
+Example3: taking the account record data from the Request message and creating account record.
+
+  
+Result:
+ 
+
+Example4: Post method:
+ 
+
+Work bench: sending request to SF using workbench 
+ 
+
+Result:
+ 
+
+Same example we can write with Get method only dirrefernce will change the method and Passing string. For Get method will not have body so inputs can be passed in URL as Params and same can be used in code.
+ 
+ 
+Work bench :
+ 
+Result:
+ 
+Example5: HTTP delete method: HTTP deleted method also don’t have body so we need pass any parameters in URL only.
+
+
+ 
+Workbench:
+ 
+Result:
+ 
+
+
+
+5)	O Authe
+OAthe stands for Open Authorization.
+
+
+o	Client will send a request access token with user crenditials(Clientid, secretkey, user name and password) to Authorization server(OAuth 2.0).  These Auth server will send details to server and server will validate user credentials.
+o	If user details are valid then it will generate and send the access token to Auth server and Auth server will send Access token to Client. By using this access token we can make only one Rest request to SF and if we want make one more time then it will generate access token again.
+o	From client we will send the rest request with access token and Server(Rest resource) will process the request and send response back to Client.
+
+ 
+
+
+Example1: One SF org is server other SF org is Client. One SF org request the data using Rest API onther SF org will send response.
+Create a connected App at server org.
+Build-> create-> Apps-> connected Apps -> New and enable the OAuth and give call back URL.
+Once we create a connected app we will get consumer key and secret key.
+
+Apex code at client side: In below code will send a request to OAuth server with user details and receive a access key in response. Once we received Access token then we make a request to aerver to get some details using Access key.
+
+ 
+ 
+ 
+ 
+
+
+
+
+Rest Api Code at server side: 
+ 
+
+
+VF code:
+ 
+ 
+
+Output: after entering details if we click on the Request token we will receive access token.
+ 
+
+Once after receiving the access token, if enter Industry and click on request data,
+ 
+
+Result: we will receive accounts.
+ 
+
+
+
+
+OAuthe code format flow or OAuth web server authentication flow
+
+  
+
+Apex code at client side: in below code we will send request for code and server will send a code to redirect URL page. By using this code we will send one more request for access then server will give access key then with help of this access we will make a rest Request then we will receive a response. 
+
+ 
+ 
+
+ 
+
+
+
+OAuth Client credential format
+In this method we will pass client crendentials and access the server.
+Refer the  LinkedIn and Facebook videos from Integration.
+
+Box example: In this example we are get code from Box then getting access key. Once after that we create creating folder in BOX from SF using Post method and access key.
+Apex code:
+ 
+ 
+ 
+ 
+
+
+
+VF Home page:
+ 
+Vf response page:
+ 
+ 
+
+Result:
+In Box home page enter details and click on request code.
+ 
+
+Thenk it will navigate to response page and provide the code.then enter the required details and and click on request token then it will give the Access token.
+ 
+
+After clicking button, Access key received.
+ 
+
+Test class for web services
+If we want test the third part web services we suppose to create our dummy response to test whether functionality working or not like sanity check.we will create a dummy response same as how Third party system will send respone. This can be done implementing ‘HttpCalloutMock’ interface and this interface has ‘Respond’ method.
+
+Test class1:
+ 
+
+Apex class:
+ 
+Test class2: In Test class we are calling Dummy response test class and then calling apex class. In Apex class we are creating account with whatever response received.
+
+To call the dummy response test class we need use “Test.mock(HttpCalloutMock, classobject)”;
+
+ 
+6)	Soap API
+In Rest API, resource will be exchanges b/w client and server by using the URL and will follow any one of the Authentication.
+
+ 
+
+But in SOAP API, it will convert the server program(java) in to client program(SFDC) using WSDL. 
+ 
+
+If we want to geerate Apex class from WSDL then follow the navigation,
+Admin->Build-> develop-> Apex class then click on the generate from WSDl and upload the WSDL file.
+
+
+ 
