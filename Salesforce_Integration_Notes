@@ -1,0 +1,158 @@
+Salesforce Integration Notes (Detailed & Example-driven) 
+1. Remote Site Settings 
+• What is it? 
+A Remote Site Setting tells Salesforce which external endpoints (URLs) it is allowed to 
+call out to. Without it, Salesforce blocks HTTP callouts for security reasons. 
+• How to use? 
+If you want Salesforce to call a REST API at https://api.external-system.com, you must 
+f
+ irst add it to Setup → Remote Site Settings. 
+• Example: 
+o Remote Site Name: External_API 
+o Remote Site URL: https://api.external-system.com 
+Now you can safely make an Http.send() call to this endpoint from Apex. 
+2. SOAP API Integration 
+• What is SOAP API? 
+SOAP uses WSDL (Web Services Description Language) files provided by the external 
+system. WSDL acts like a manual, defining methods, inputs, and outputs. 
+• Steps to integrate: 
+1. Get the WSDL from the external system. 
+2. Upload it into Salesforce (Setup → Apex Classes → Generate from WSDL). 
+3. Salesforce automatically creates an Apex class for SOAP callouts. 
+4. Add the SOAP endpoint URL to Remote Site Settings. 
+5. Call the generated Apex method from your code. 
+• Example: 
+MySOAPService.MyPort binding = new MySOAPService.MyPort(); 
+binding.endpoint_x = 'https://external.com/service'; // also in Remote Site 
+String result = binding.getCustomerDetails('12345'); 
+3. Salesforce Standard APIs (Out-of-the-box) 
+Salesforce provides standard REST and SOAP APIs to perform CRUD/DML operations on all 
+objects. 
+• Examples: 
+o REST API: 
+GET /services/data/v60.0/sobjects/Account/001XXXXXXXXXXXX 
+o SOAP API: 
+Using Partner/Enterprise WSDL. 
+• Documentation: 
+Working with Records (REST API) 
+4. Connected Apps (Inbound Integration) 
+• Why needed? 
+When an external system needs to call Salesforce (Inbound), we must create a 
+Connected App. 
+• What it provides: 
+o Client ID 
+o Client Secret 
+• Authentication: 
+o Username + Password + Security Token 
+o Security Token: Can be reset from My Settings → Reset Security Token 
+(received via email). 
+• Special Setting: 
+To allow Username-Password authentication, enable: 
+Setup → Security → OAuth and OpenID Connect Settings → Allow OAuth Username
+Password Flows 
+5. Composite REST API 
+• What is it? 
+Allows performing multiple operations in one request (reduces API calls). 
+• Example Use Case: 
+Insert one Account and multiple Contacts in one go. 
+• How it works: 
+o Endpoint: /services/data/v60.0/composite 
+o Request Body contains sub-requests for Account + Contacts. 
+6. Custom Apex REST API 
+• Why needed? 
+If validation, custom logic, or calculations are required before saving/updating data, 
+use a Custom Apex REST API. 
+• How to create? 
+@RestResource(urlMapping='/MyCustomAPI/*') 
+global with sharing class MyRestAPI { 
+@HttpPost 
+global static String createAccount(String name) { 
+Account acc = new Account(Name=name); 
+insert acc; 
+return acc.Id; 
+} 
+@HttpGet 
+global static Account getAccount() { 
+return [SELECT Id, Name FROM Account LIMIT 1]; 
+} 
+} 
+• Key Annotations: 
+o @HttpGet → GET request 
+o @HttpPost → POST request 
+o @HttpPatch → PATCH request 
+7. Partner vs Enterprise WSDL 
+• Enterprise WSDL: 
+o Tightly bound to your org’s schema. 
+o Use when schema changes are rare. 
+• Partner WSDL: 
+o More flexible, works across multiple orgs. 
+o Use when schema changes are frequent. 
+8. Custom SOAP Webservice (Inbound) 
+• You can expose an Apex class as a SOAP Webservice. 
+• This makes your class downloadable as a WSDL to share with external systems. 
+• Example: 
+global with sharing class MySOAPService { 
+webservice static String getGreeting(String name) { 
+return 'Hello ' + name; 
+} 
+} 
+9. Outbound Messages 
+• What is it? 
+If an event in Salesforce (e.g., Account creation) needs to notify an external system 
+via SOAP, use Outbound Messages. 
+• Features: 
+o Reliable retry mechanism (keeps retrying until successful). 
+o Configured in Workflow/Flow. 
+• Example: 
+On Account creation → send Name + Phone → External endpoint. 
+10. External Services (OpenAPI Schema) 
+• What is it? 
+If an external system provides an OpenAPI JSON Schema, Salesforce can auto
+generate invocable actions. 
+• Steps: 
+1. Get the OpenAPI schema (JSON with endpoint, method, request/response). 
+2. Upload in Salesforce via Setup → External Services. 
+3. Use the service in Flow or Apex. 
+11. Named Credentials (Advanced Callouts) 
+• Remote Site Setting vs Named Credential 
+o Remote Site Setting: Only URL. 
+o Named Credential: URL + Authentication (OAuth, Basic Auth, etc.). 
+• Steps to Configure: 
+1. 
+2. 
+3. 
+4. 
+Create an Auth Provider (for OAuth2). 
+Create External Credential with principal & scope. 
+Create Named Credential using External Credential. 
+Assign permission set to user. 
+• Example (Apex): 
+HttpRequest req = new HttpRequest(); 
+req.setEndpoint('callout:My_Named_Credential/someAPI'); 
+req.setMethod('GET'); 
+Http http = new Http(); 
+HttpResponse res = http.send(req); 
+12. Platform Events (Broadcasting) 
+• What is it? 
+A way to broadcast messages to many external systems. 
+Instead of making multiple REST callouts, Salesforce publishes an event. 
+• Publishing Methods: 
+o Flow 
+o Apex 
+o API 
+• Example: 
+When an Account is created, Salesforce publishes an event. 
+o MuleSoft subscribes → processes event. 
+o Another system subscribes → receives same event. 
+13. Change Data Capture (CDC) 
+• What is it? 
+Automatically publishes events when field values change in Salesforce. 
+• Use Case: 
+Notify an external system when an Opportunity Stage changes. 
+14. Salesforce Connect 
+• What is it? 
+Allows connecting to another org (or external DB) without storing data locally. 
+It creates External Objects that fetch live data on demand. 
+• Example: 
+Connect Org A (Sales Cloud) with Org B (Service Cloud). Accounts in Org B appear in 
+Org A as External Objects. 
