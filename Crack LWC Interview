@@ -1,0 +1,235 @@
+Crack LWC Interview
+
+********************
+
+1.One Trigger code - 
+
+  Parent to Child scenario - You refer Salesforce Ninza - Playlist - 25 trigger scenarios - 
+https://www.youtube.com/watch?v=ANP_FmzeC7s&list=PLybpx-7sKOrSP3vUkMol1U197cNs_YIsD
+
+  Dailiy 3 triggers - Femilier with writing Trigger
+
+2.One SOQL/SOQL Query - Complex 
+
+  Parent to child Queries 
+
+  Acount
+
+    - Contact
+
+	- Opportunity
+
+	SOSQL - Query
+
+	Srini names and those contacts
+
+3.LWC Scenario- at least with Code synapsis
+
+   Lifecycle hooks
+
+   @wire methos
+
+   Conditionally displaying
+
+   - Performace for LWC
+
+   - best Practice of LWC
+
+   Parent to child communication 
+
+   communication in LWC 
+
+    Parent to child
+
+	Child to Parent
+
+	sibling Componets
+
+4.Integration -
+
+   SOAP/REST Disfference
+
+   Inetgration Patterns
+
+   Rest Integration - Sending Payload to other system by REST Resource
+
+5.Batch Apex - 
+
+6. Peformance Issues
+
+   Trobule shooting 
+
+     - Cyclomatic Complexity/Cognitive - PMD Scan report - WWW.APexhours.com,Learnfrendzy.com (LWC/BAtch Apex/Integartion)
+
+	 - To Many SOQL Queries
+
+	 - CPU time limit execced	 
+
+	 - Types of Exceptions
+
+7.Adminn- 
+
+- Flows, 
+
+- Security
+
+Sept -
+
+August 
+
+Daily 2 hours - 
+
+- Wring Triggers - 1 hr
+
+- Writing LWC compoennts - lwc - Target Two weeks to learn LWC and Practice 1 week
+
+- LWC - Udemy - Manish Chouldary - Prakar
+ - YouTube
+Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.
+
+
+
+
+----------------------------------------
+
+
+
+1. How many lookups and how many master detail relationship can be created in object ?
+
+     40 L, 2 Matser
+
+2. What are Governer Limits?
+
+3. Best Practices in Salesforce?
+
+4. Order of execution. 
+
+5. What are the different type of collections you can have in Apex?List,Set and Map
+
+6. What are Triggers in salesforce? 
+
+7. Write a Trigger Account related contacts count (Rollup summery) ?
+
+8. Write a Trigger when ever Account Owner is changed you need to update the owner field on the Contact related to that Account?
+
+9. Salesforce Platform Events.
+
+10. Test class Best Practice.
+
+11. Lightning message service (LMS) in LWC.
+
+12. Difference between future and queueable.
+
+13. What is Change Data Capture (CDC) in salesforce.
+
+14. Map methods.
+
+15. How to test callouts in salesforce ?
+
+16. Batch apex syntax.
+
+17. What are the difference between SOQL and SOSL?
+
+18. Write a apex program retrive data from SOQL and store it in MAP collection ?
+
+19. What is Data Skew in salesforce?
+
+20. What is Wrapper class in salesforce?
+
+21. What is difference between WhoID and WhatID?
+
+22. What is Asynchronous Apex? What are its different types?
+
+23. How many callouts to external service can be made in a single Apex?
+
+24. How to get UserID of all the currently logged in users using Apex Code?
+
+25. What is the Use of "@future" annotation?
+
+26. What are context variables in triggers?
+
+27. Can a trigger call a batch class?
+
+28. Can a trigger make a call to APEX callout method?
+
+29. Define Recursive Trigger and how to avoid it?
+
+30. Can you explain order of execution in Triggers?
+
+31. What are the difference between database.insert and insert?
+
+32. Can I do callouts from a Queueable Job?
+
+33. Can I call Queueable from a batch?
+
+34. How to test Asynchronous Apex?
+
+35. What are Mixed DML Exception?
+
+36. What is with sharing and without sharing in APEX?
+
+37. What is difference between static and non-static?
+
+38. Can we call the batch in to another batch apex?
+
+39. Can we call the batch apex in triggers in salesforce?
+
+40. How can I perform Callouts from Future Methods?
+
+41. Can I call Queueable from batch?
+
+42. What is bubbles and composed in LWC?
+
+43. What are the events in LWC?
+
+44. Can I call child method into parent method?
+
+45. What are best practices in Trigger?
+
+46. What are life cycle hooks in LWC?
+
+47. What do you mean by cacheable = true annotations in Apex?
+
+48. What are decorators in LWC?
+
+49. What are decorators in APEX?
+
+50. What is refresh apex?
+
+52. Limitations in Asynchronous APEX?
+
+53. What is imperative call in LWC?
+
+54. What is difference between VAR and LET in Javascript?
+
+55. What is difference between '==' and '==='?
+
+***************************************************************************************************************************************
+
+For Senior Resources - 7 Years plus
+
+1) we have Invoice custom object. There is a custom button. Below requirements we need to cover. Write a code
+
+	a) Agent can click on that it will convert it to Order and OrderLineItem. Anytime user can click on that button
+
+	b) We have to prevent duplicate conversion of Invoice(Duplicate Order/OrderItem creation)
+
+	c) If Any info update on invoice and Agent will click on button again it will update the info on Order/OrderLineItem
+
+	d) Write a Process that will run daily and Utilize the same code on button click
+
+2) We have two system one Salesforce and second MySQL. Currently Agent have to update the account and Invoice manually in both system. One account can have multiple Invoice in MySQL
+
+	Design a proper solution to make the life easy of an Agent.
+
+3) LWC Life Cycle
+
+4) I want to log some integration information before data sent to external system(All possibilities).
+
+5) We have a checkbox on account if it is checked record will hide to specific user and show some other user.
+
+6) We have an existing org that have approx. 40k class and i want to monitor the org.
+ 
+https://dineshyadav.com/salesforce-integration-interview-questions/
+ 
+ 
