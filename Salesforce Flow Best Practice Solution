@@ -1,0 +1,39 @@
+Salesforce Flow Best Practice Solution
+Please take care of these points when we are creating flow.
+1.	if possible, apply a filter in the Entry condition of the flow, so that it will only hit the flow on the conditions that meet
+2.	As much as possible do not use loops it will exceed the elements limit (2000 elements per transaction) 
+Note:: In API version 57.0, the limit of 2000 flow elements was removed. In API version 56.0 and earlier, flows could have a maximum of 2000 flow elements.
+3.	Apply exact conditions to reduce the iteration in a loop
+4.	Delete the elements, variables, etc. which are not in use
+5.	Do not use unnecessary elements  
+6.	Please apply the proper conditions to reduce the components in the flow
+7.	Use Formulas as well for conditional assignments
+8.	Use fault path and send error email to a Admins or POC person
+9.	Use Collection variable to perform any DML Operations In flow at once.
+
+Links For Flow Best Practice:
+1.	General Flow Limits (salesforce.com)
+2.	https://www.apexhours.com/salesforce-flow-best-practices/
+3.	https://www.salesforceben.com/salesforce-flow-best-practices/ 
+
+Flow Naming conventions
+
+Type	Naming convention	Example	Comments
+Record Triggered Flow Before 	Object_TRG_Name_Before	Case_TRG_ICReviewRecomExternal_before_create	Create, CreateUpdate, Update or Delete
+Record Triggered Flow After	Object_TRG_ Name _After	Case_TRG_ICReviewRecomExternal_after_create	Create, CreateUpdate, Update or Delete
+Run Asynchronously	Just append async	Case_TRG_ICReviewRecomExternal_after_create_async	
+Screen flow	Object_SCR_ Name	Case_SCR_ICReviewRecomExternal	
+Subflow/Auto launch flow	Object_SFL_ Name	Case_SFL_ICReviewRecomExternal	
+Scheduled FLow	Object_BAT_ Name	Case_BAT_ICReviewRecomExternal	
+Platform Event	Object_EVT_ Name	Case_EVT_ICReviewRecomExternal	
+Send Emails in a flow	Append EML	Case_SFL_ICReviewRecomExternal_EML	
+
+A flow description should indicate what the Flow requires to run, what it does functionally, and what it outputs. Example: A screenflow to map problem codes to IC worktypes and populate populate probemcode mapping object.
+Please go through the Flow elements naming in this: https://wiki.sfxd.org/books/best-practices/page/flow-naming-conventions
+Please go through the below as well: 10 Salesforce Flow Tips from the FlowFest Champion | Salesforce Ben
+
+Limitations:
+
+	Flow Builder doesn't support UTF-8 encoding for text in user input fields.
+	Async flows can’t be called from auto lunch flows and in Sync flows there no option retrieve Record.Prior Values.
+	Be aware of these limitations when using a time field type. The time field:  Isn’t supported in Flow Builder, Process Builder, and Schema Builder. Doesn't support the creation of custom index for SOQL queries. Isn’t available for standard lookup relationships in external objects.
