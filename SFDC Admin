@@ -1,0 +1,1928 @@
+Salesforce Admin
+Table of Contents
+IMPORTANT TOPICS	4
+1)	INTRODUCTION TO CRM	4
+Sales Cloud	7
+Editions	8
+2)DATA MODELLING	11
+Objects	15
+Fields	19
+Limits for Custom Picklists	29
+Documents	29
+Formulas	30
+Rollup Summary	42
+Validation Rules	43
+Duplicate Rules	47
+Relationships	48
+Master-detail relation ship	49
+Lookup relationship	53
+Junction Object	55
+Hierarchical relation	56
+External Relation	57
+3) USER INTERFACE	58
+Tabs	58
+Search Layout	61
+Page layout	64
+Mini page layouts	64
+Record Types	65
+Compact page layouts	67
+Related Lists	68
+List View	69
+Lightning App Builder	70
+4)MANAGING DATA ACCESS	70
+Profile	71
+Permission Set	76
+Roles Hierarchy	78
+User Management	80
+Login History and IP white Listing	93
+5) SECURITY	94
+Object level security	95
+Record level Security	96
+OWD	99
+Role Hierarchies	101
+Sharing Rules	102
+Team Sharing	109
+Territory Sharing	110
+Field level security	111
+6)AUTOMATING BUSINESS PROCESS	114
+Business process	114
+Workflow	116
+Evolution Criteria	118
+Workflow Actions	119
+Immediate Actions	119
+Time-based Actions	125
+Process Builder	127
+Lightning Flow	128
+Assignment rules	131
+Approval Process	132
+Jump Start Wizard	134
+Standard Step Wizard	135
+7) AUDIT AND TROUBLESHOOT	143
+Debug Logs	143
+Email Logs	145
+Audit Trails	145
+Field History tracking	146
+8)DATA MANAGEMENT	147
+Data Import	148
+Data Import Wizard	149
+Data Loader	150
+Data Export	152
+External ID	155
+9)REPORTS AND DASHBOARD	159
+Reports	159
+Dash Boards	164
+
+
+
+
+
+Important topics 
+	Relationship
+	Security (Profile, Permission, OWD and sharing rules) 
+	Workflow, process builder approval process
+	Data Management 
+	
+1)	Introduction to CRM
+
+Mark Benioff is the owner of Salesforce. Lunched in 1999 in cloud.
+Salesforce.com is the company/Org developed by Mark Benioff and it is lunched the CRM that CRM toll is Salesforce.
+In URL:  If URL start with below then the instance is from the that region of go to company profile to see the instance.
+In Company profile we can be able to see the user licenses details like used licenses and available details.
+ 
+Ap: Asia specific
+Na: North America
+Eu: Europe
+For Sandbox environment for all locations ‘cs’ will be there in URL.
+Production URL: login.salesforce.com
+Sandbox URL:  test.salesforce.com
+User id:
+Naresh@salesforce.com-> production user
+Naresh@salesforce.com.sandbox-> sandbox used id.
+
+Multitenant environment
+Multiple user using a single data base.
+By using Salesforce.com org id it will different the organization data like dxc, Accenture like that and it will be available in organization profile and it will 15 digit unique.
+
+Object ID:  if we click on the object then In URL we can find the Object id
+Account: 001
+Contact: 003
+Lead:00Q
+Record ID: It is 18 digit unique id. Object id(like account 001) +Record id 15 digit. 
+15 digit id we can find in URL because of security reasons. If we want see the 18 digit id then go to the SOSQ query.
+
+In Recycle, record will there for 15 days after that salesforce will delete permanently. 
+New user activation URL will valid only for 7 days.
+ 
+
+ 
+
+Application in SF: 
+	It is a just like bucket where we puts tabs/ Functionalities/ do automation.
+	An app in Salesforce is a set of objects, fields, and other functionality that supports a business process. You can see which app you’re using and switch between apps using the App Launcher ( App Launcher icon).
+	Once we created App in Lightning Environment then we can’t use it Classis again we need to create it in Classic.
+	While creating TAB we assigned to one Sales application only now we need to add this for service cloud also then use below path.
+Classic:
+              ---> Adminster-> Create -> Apps -> Select App and add the tab to App.
+Lightning: 
+	->Setup->Platform tools->Apps->App manger-> Select App and add the tab to App.
+ Or click on the edit icon on the app.
+ 
+
+To use images or documents in SF we need to upload first those in Documents folder.
+
+	Schema Builder: it is used to see the relationship between the objects.
+Through this we can create object, Fields.
+Also we can be able to create a new objects and field layout. If created a field through schema builder we don’t have to option choose which page layout to assign. If create a fields through schema builder mandatory fields will be added to the object page layout but optional fields we need to add it manually.
+
+	To enable Force.com Quick menu in classic go to Name-> my setting-> select Personal | Advanced User Detail and enable quick access menu.
+Or 
+Go to user and enable the Quick access menu 
+
+Sales Cloud
+
+Campaign
+ 
+
+All Standard object have only Lookup relation. 
+
+ 
+Editions
+
+ 
+ 
+
+
+ 
+
+ 
+
+ 
+
+
+2)Data Modelling
+
+Trailhead module: data Modelling
+App Manger: to create a App.
+
+Use case for practice:
+ 
+
+
+ 
+
+ 
+ 
+
+ 
+
+
+
+SFDC for ABC corp:  
+ 
+
+Objects
+	Object is a database table where we can store the record/Data.
+	For one object 2 master-detail fields and 40 lookup fields can be created.
+	Object manager: to create an Object. Like PF
+	On one object we can create up to 1000 fields.
+
+ 
+
+ 
+
+
+
+ 
+
+  
+
+
+ 
+
+ 
+
+ 
+
+ 
+	If we enable Lunch new custom tab wizard in object creation time after saving object it will automatically navigate to tab creation for that object.
+
+
+
+
+
+Fields
+
+ 
+
+ 
+ 
+ 
+
+Custom Field creation ways:
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+Field Types:
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+ 
+
+To See encrypted data, user profile need permission to see the encrypted data.
+ 
+
+
+ 
+
+
+ 
+
+Read only fields:  We can’t edit the field 0nly field visible. Formula, Rollup summary and Auto number are the read only fields in salesforce.
+External Id Fields: Number, Auto number, email and text.
+
+Limits for Custom Picklists
+Custom single-select picklists can have
+•	Up to 1,000 values
+•	Up to 255 characters per value
+Custom multi-select picklists can have:
+•	Up to 500 values
+•	Up to 255 characters per value
+Users can select up to 100 values at a time on a record. If you apply a global picklist value set to more than 13 different objects, you can deactivate values from the picklist value set, but you can’t replace any picklist values or delete values from the set.
+	 If we convert from picklist to multi pick list then all dependent entries will lost and also inactive values in picklist will lost.
+	If we want select default ficklest based condition use formula editor. Example below.
+CASE(MONTH(TODAY()),1, "Gingerbread",2, "Strawberry",4, "Chocolate",7, "Raspberry",11, "Pumpkin",12, "Mint", "Vanilla")
+o	Convert multi picklist to pick list without data loss: it is not recommended to change because multi select will more than option but in pick list it will have only one .still we need to do then we can do with apex data loader with minimal risk.
+	Take a backup
+	convert to picklist
+	Remove multi select to single value in csv file with respect to your requirement
+	upload into salesforce.
+Documents
+
+ 
+
+
+Formulas
+
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+Trail head: Formulas & validations, Duplicate management.
+
+->Formal fields:
+ 
+
+ 
+
+
+
+
+Rollup Summary
+
+	Rollup summary is used to summarize the corresponding child records.
+	Roll up summary can be created only on the object which is already parent to the other object otherwise we can’t create. i.e master-details relationship only.
+	Example. In Object ‘B’ we have created one Master detail field by choosing the master object    as ‘A’. Then we can create a Rollup summary field on Object ‘A’ not be able to create on ‘B’.
+	We can perform the operations Count, Sum, Min and Max of the child record from all the records or we can specify the Filter(Condition).
+	On a single object we create 25 rollup summary.
+
+ 
+
+ 
+
+Validation Rules
+
+	ISNEW() is the function to check whether it’s newly creating record or not.
+	ISCHANGE(fieldname) function to identify the modify record.
+	PRIORVALUE(fieldname) it will tell you the old value the field.
+	
+ 
+
+ 
+ 
+
+
+
+ 
+
+
+ 
+ 
+ 
+
+
+
+
+Duplicate Rules
+
+
+	Duplicate Rules: First create matching rules and then create a duplicate rule.
+	Matching rules and duplicate rules we need to activate it. When we activate Matching rules it will send email confirmation to the register email.
+	By default Standard duplicate rules available for Account, Contact, Lead and   Persona Account. If we want we can create for Custom objects.
+	Per object we use 5 active duplicate rules.
+  
+ 
+
+
+Relationships
+We can see the relationship between the objects in Schema Builder and workbench.
+
+1)	Master-detail relationship
+2)	Lookup relation
+3)	Junction object
+4)	Hierarchical
+5)	External relation
+Master-detail relation ship
+
+
+ 
+
+Sharing Settings
+ 
+ 
+
+	In Sharing setting: read Only option selected then If User who has  read permission on the master object they can create/Edit and delete the child records. In above example Sam, Ram and Faraz.
+	In Sharing setting: Read/Write option selected then If User who has Read/Write permission on the master object they can create/Edit and delete the child records. In above example Faraz.
+ 
+
+ 
+
+
+ 
+
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+
+ 
+
+
+Lookup relationship
+
+ 
+
+ 
+	Look up is loosely couple relation.
+	While creating Lookup Relationship field if we enable Clear value, Then it will allow to delete the parent record and replace the value with blank.
+	While creating Lookup Relationship field if we enable Don’t allow deletion, Then it will not allow to delete the parent record.
+	If you want to create a master detail field on the object which is already having the data, then first create a lookup relationship field after that change field type to Master detail relationship. This field type conversion can happen after providing the valid data into that field. For already existing records update this field either manually or Data Loader or ETL tools.
+ 
+	If we want to convert Lookup relationship to master detail then provide the valid data in to the field and convert.
+	If we want convert Master details relation to Lookup then if there is no rollup summary on master object then we can convert. If we have Roll up summary we can’t convert Master details to LookUp.
+	
+
+
+
+
+
+
+
+ Junction Object 
+
+	Any object which have 2 master-detail fields from different objects then that object is called as Junction Object. It s the many-many relationship.
+	The Owner of the primary master i.e the owner of the Junction object.
+	In below example Course owner is the owner of the Student as well.
+	
+
+ 
+
+ 
+
+
+
+
+Hierarchical relation
+
+In Lightning Goto Object manger-> User object and create the Hierarchical relation.
+It is 1-1 Relation.
+
+ 
+
+
+
+
+
+External Relation
+
+	To create external relation ship first we need to create ‘External data Source’ and then validate and Sync the objects then it will create the External objects.  
+
+Navigation in classic:
+	Setup->Build->develop->Lightning comments-> External data sources.
+Navigation in Lightning:
+	Setup-> Platform tools->Integrations->External data sources.
+
+	Once External objects Synced then we can create external relationship field in normal navigation.
+	External data source URL for testing purpose.
+https://orderdb.herokuapp.com/orders.svc/
+	External object wiand then vall have Suffix of ‘__x’.  like Payments__x
+ 
+
+               
+
+3) User Interface
+
+Trailhead module: App customization lite, Lightning experience Customization, Customizing the Interface for recruiting app and  Lightning App builder.
+
+
+
+
+Tabs
+
+	Type of tabs : Custom tabs, Web tabs, Visual force tabs, Lightning component tabs.
+	To display the list of fields on the object after clicking tab, Go to object and search layout and select the object tab to select the fields to display.
+	If don’t create tab for the object then we can’t create a new record through UI since we can’t be able access the object in UI screen but we upload data using data Export, Dataloader.Io and other Tools.
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+
+Search Layout
+
+	After clicking the object tabs what all the fields to display will organized by Search Layout.
+
+ 
+
+To setup:
+Search Lay out and edit respective Profile.
+
+ 
+ 
+	Search results
+ 
+
+	Lookup Filter and List view Options.
+ 
+
+
+Below highlighted is the Example for List View
+ 
+
+
+
+Page layout
+
+	One profile will have one Page layout on each object.
+	One-page layout can assign to one profile or many profiles.
+	Every page layout will one Mini page layout. if we assign a page layout corresponding mini page layout will automatically assign.
+	The page layout editor lets you:
+o	Control which fields, lists of related records, and custom links users see
+o	Customize the order that the fields appear in the page details
+o	Determine whether fields are visible, read only, or required
+o	Control which standard and custom buttons appear on records and related lists
+o	Control which quick actions appear on the page
+Wondering what the icons mean to the left of some of the field labels? 
+•	 ―The field must have a value to save the record, but isn’t required on the page layout itself.
+•	 ―The field must be included on the page layout because an administrator configured the field as universally required or Salesforce automatically requires the field. Although you can’t remove such fields, you can move them to different locations.
+•	 ―The field is a controlling field.
+•	 ―The field is a dependent field.
+•	 ―The field is read-only.
+
+	There are three primary types of custom buttons and links that you can create.
+o	List button—Appears on a related list on an object record page.
+o	Detail page link—Appears in the Links section of the record details on an object record page.
+o	Detail page button—Appears in the action menu in the highlights panel of a record page.
+
+
+ 
+
+Mini page layouts
+
+	Every page layout will one Mini page layout. if we assign a page layout corresponding mini page layout will automatically assign.
+	If we place cursor on the record then it will display the one page layout that is called Mini page layout.
+ 
+
+	While creating Page layout we have option to edit Mini page layout in both classic and Lightning.
+ 
+
+Record Types 
+
+	Record types : Based on record type it will navigate to different screen and this different screens are created by using Page layout.
+
+
+
+
+ 
+ 
+
+ 
+
+
+ 
+
+ 
+	Once record type created and assigned to particular profile we can’t delete or deactive them until we remove the default from the profiles. If we try to delete or deactivate it throw beloe error.
+ 
+To change the default record type for the object follow below steps.
+Go to profile and change the default record type to master in Record type setting.
+
+ 
+
+After changes to master.
+ 
+
+Now try to delete or deactivate the record type.
+ 
+
+While deleting the existing record type we can chose to replace with other record type or with none for the existing records.
+
+Compact page layouts  
+
+	After clicking the any record in object the header part we call it as Compact layout.
+	Compact layouts control which fields your users see in the highlights panel at the top of a record. They also control the fields that appear in the expanded lookup card you see when you hover over a link in record details, and in the details section when you expand an activity in the activity timeline.
+	When you create a custom object, it’s automatically assigned to a system default compact layout, which has only one field on it: the object name.
+ 
+
+Navigation Classic and Lightning:
+Object manager select object click on Compact layoutcreate one and assign.
+
+Related Lists
+
+	It is one kind of section where we add related list in the Page layout section to display the related entries.
+	Creation is same in both Classic and Lighting.
+	Fields to display for related list we can set up after clicking the setting icon select fields to display.
+
+ 
+List View
+
+	For list view there is no option to create in Setup, we can only create after clicking tab.
+The list of records to display based on filter is called as List view.
+
+ 
+
+Navigation In Lightning:
+->Click on setting icon on Tab then create a new list view.
+
+ 
+
+Navigation In Classic:
+ 
+
+
+
+	Below highlighted is the Example for List View
+ 
+
+Lightning App Builder
+
+	Lightning App Builder: The Lightning App Builder is a point-and-click tool that makes it easy to create custom pages for the Salesforce mobile app and Lightning Experience, giving your users what they need all in one place.
+	When you edit a Lightning app from the App Manager in Setup, you’re brought into the Lightning App Builder to manage the app’s settings. You can update the app’s branding, navigation, options, and manage the Lightning pages assigned to that app all in the Lightning App Builder.
+
+	With the Lightning App Builder, you can build:
+o	Single-page apps that drill down into standard pages
+o	Dashboard-style apps, such as apps to track top sales prospects or key leads for the quarter
+o	“Point” apps to solve a particular task, such as an expense app for users to enter expenses and monitor expenses they’ve submitted
+o	Custom record pages for your objects, tailored to the needs of your users
+o	Custom Home pages containing the components and features that your users use most
+
+Home Page
+	You can create a custom Home page in a few different ways: Create it from scratch using a template, clone it from another custom Home page, or edit a page from the setting icon in Home tab in a Lightning app.
+	To edit an existing page, you can click setup gear button from the Home page, and then select Edit Page to create a copy of the current page to edit. If a customized page exists and is active, selecting Edit Page opens that page to edit.
+	When activating a Home page, you have three different options: You can make your page the default for everyone in the org, the default for an app, or assign it to one or more app and profile combinations, giving your users access to a page designed just for their role.	
+ 
+
+
+
+Record Page
+	Use the Lightning App Builder to add, remove, or reorder components on a record page to give users a customized view for each object’s records. 
+	Even cooler, you can customize a record page and assign it to specific Lightning apps to give your users access to a record page customized especially for the context of the app they’re working in.
+	Just like the Home page, you can create a custom record page in different ways: Create it from scratch using a template, clone one of your other custom record pages, or edit an existing page. However, unlike the Home page, custom record pages are not only supported in Lightning Experience on desktop but also in the Salesforce mobile app. 
+	Did you know that you can control when a component appears on a Lightning record page? You can, by adding component visibility filter conditions and logic to its properties.
+Let’s give it a shot. We’ll construct filters to make a rich text component display when an opportunity’s Amount is greater than or equal to $1 million, and its Stage is Closed Won.
+ 
+	You have four options for activation.
+o	Make the page the org default for the object.
+o	Make the page the default object record page for specific Lightning apps.
+o	Assign the page to a combination of Lightning apps, record types, and profiles.
+o	Assign the page to a form factor, such as a desktop or phone. (This option will be available when we select the APP,record type and profile).
+ 
+
+
+App Page
+
+
+4)Managing data access
+
+Trail Head: Profiles, data security, salesforce security guide, Field level security and Role hierarchy 
+	If we want to check the record id of the User then go to the user and check the URL.
+ 
+
+	Decide Who Can Use Lightning Experience
+o	To use Lightning Experience, users must have the Lightning Experience User permission. This permission is automatically enabled in all standard Salesforce profiles. But custom profiles don’t usually include this permission by default. So we need to enable the ‘Lightning Experience User’ Permission.
+	Enable Chatter Email Notifications: When you enable email notifications for Chatter, your users start receiving email notifications about new posts, comments, and other changes.
+
+In the Setup Quick Find box, enter Email Settings, and then click Email Settings.
+
+
+Profile
+
+	Profile: It is a collection of settings and permissions.
+1.	Standard profile: Any profile created by the Salesforce. We can’t delete standard profile. We can only modify.
+2.	Custom profile: any profile created by the user.
+	Go to users-> profiles->Created new profile by cloning the existing profile and then edit the permissions.
+	If we enable ‘Developer Mode’ option in user setting then we can be able create VF pages classic environment itself.
+	Profile can control which we can see
+1.	Applications
+2.	Objects
+3.	Fields
+4.	Tabs
+5.	Page Layouts/Record Type
+6.	Admin
+7.	Used level access
+8.	Security permissions 
+9.	Login base on IP ranges
+10.	Login Hours: If set login hours then profile assigned users can login only login hours.
+11.	
+
+
+ 
+
+
+ 
+ 
+
+ 
+
+
+ 
+
+ 
+
+
+ 
+
+ 
+
+
+Permission Set
+
+	If we want to give any extra permissions to a specific user apart from what he getting from the 
+Profile then we will go with the Permission set.
+	Every permission set is created for specific license. In Permission set we can provide extra permissions based on Lenience only. If we want to assign the permission set then user and permission set both should have same license.
+	In Permission sets, We can’t remove existing permissions that are getting from the profile, we can only provide extra permissions.
+	Using permission set we can grant most of the permission’s that are available in Profile.
+
+ 
+
+ 
+
+ 
+ 
+Navigation to assign permission set to user:
+Setup->Administrate->manage users-> Users-> Click on user and then assign the permission set.
+	MFA
+o	To enable MFA for user we need to enabled the ‘Manage Multi-Factor Authentication in User Interface’  in profile or create the permission set. Also we have option for ‘Muti-factor authentication for API logins’.
+o	Enable MFA for users by assigning the Multi-Factor Authentication for User Interface Logins user permission. You can do this step by editing profiles or by creating a permission set that you assign to specific users.
+o	Normally we use the ‘Salesforce Authenticator App’.  After enabling the MFA for users, when first time login user can register to the App once after that user will get a notification every time login ‘ACCEPT/reject’. \;
+o	In Mobile app if we enable ‘Always approve from this location’ then app will automatically approve the login request from this location login tried.
+o	Any time user tries to log in from a different location, user can add the location to the Salesforce Authenticator list of trusted locations. To view the list and other account details, user selects the information icon which opens the accounts details page.
+o	To check the History of MFA logins check under ‘Identity Verification History’.
+o	
+Roles Hierarchy
+	Roles Hierarchy
+
+    
+ 
+ 
+
+ 
+
+
+ 
+
+User Management
+
+	User management
+ 
+
+	Who see what in salesforce OWD(Organization wide defaults):
+
+ 
+
+	Every user will have one Role, Profile and Lenience.
+	Once user created we can’t delete the user either we can deactivate or Freeze. 
+	If we deactivate the user the assigned user license will be free and we use the license to created to new.
+	If the user frizzed the assigned user license will still allocated the same user but he can’t login until we unfreeze the user.
+	User level restriction 
+1.	User deactivation: User level 
+2.	User freeze : User level 
+
+	Profile level User restriction
+1.	Login IP set up in assigned profile
+2.	Login Hours set up in profile (ex. If the login hours are set to 1 P.M to 6 P.M then user can be able to in the time only. One of user is logged in at 5.45 P.M then now the system time is 6.01 P.M then user can continue to work but he can’t relog in after 6 P.M) 
+3.	Maximum invalid login attempts (we can reset the password or Unlock the user) 
+
+	Organization level user restriction: If any third part is trying to connect salesforce its required username, password and Security token.
+If we want to allow the trusted third party  with only user name and password then enable network access.
+
+Setup-> Administrator->security Controls -> Network Access
+
+
+
+ 
+
+	If the user trying to login but not able to login , administrator checked the login history but there is entry with error reason may be the Invalid User name. If the Username is valid then only entry will be updated in the Login History.
+	With same email id we can create any number of users.
+
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+ 
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+	Is set user same profile then those set of users have same license.
+	Mange profiles and permission sets : option we enable to the particular profile then assigned profile users on created and edit profiles.
+	Manges Users: id enable this option then only that profile users can create users
+	Mange ip ranges:
+	Manage business hours
+	Rest passwords
+	View SetupConfiguration: If we enable this option then only that assigned profile users can be able to see the ‘SETUP’ option.
+	Customize Application: we need to enable this option in profile to create objects , reports, fields, tabs and workflow.
+
+
+	If Admin want to login to any user without password we need to enable the ‘Admin can log in as any user’ Option.
+
+Navigation:
+->Adminster->Security Controls->Login access policies.
+
+	Now Admin login as other user ‘A’ now if logout from user ‘A’ both admin and user ‘A’ sessions will logout if we enable ‘Force relogin after Login-As-User’. After logout from user ‘A’ session and the Admin still want login with the admin session  we need to disable this option.
+
+->Adminster->Security Controls->Session setting
+
+	Admin login as specific user that entry will be not be added in login history if we want to check that ‘View setup audit trails’.
+->Adminster->Security Controls->View setup audit trails
+	 
+
+ 
+
+ 
+	Password policies: These are available at organization level and Profile level.
+
+ 
+ 
+
+
+
+
+	Business hours: It specifies the login hours of the organization.
+ 
+
+
+Login History and IP white Listing
+
+	Login history and IP white list
+	Login IP ranges can be given in Profile settings.
+ 
+
+
+
+
+5) Security
+Security we have in 4 Levels
+1)	Organization Level
+a)	Password Policies
+b)	Network access
+c)	Authentications
+d)	SSO
+e)	Login hours
+
+2)	Object Level Security
+a)	Profile 
+b)	Permission Set
+
+3)	Record level Security
+a)	OWD
+b)	Role hierarchy
+c)	Sharing Rule
+d)	Manual Sharing
+e)	Team Members
+f)	Territories
+g)	Profile Level
+->View All, Modify all 
+->View Alldata, Modify Alldata 
+h)	Apex based sharing
+
+4)	Field Level Security
+a)	Profile
+b)	Permission Set
+c)	Page layout
+d)	Record type
+
+ 
+
+
+Object level security
+
+	Object level security can be performed at 2 level
+1)	At Profile level
+2)	Permission set
+ 
+
+ 
+
+Record level Security
+In record level security can be controlled in different ways as below.
+a)	OWD
+b)	Role Hierarchies
+c)	Sharing Rules
+1)	Owner based sharing rules
+2)	Criteria based sharing rules
+3)	Manual sharing rules
+4)	Apex based sharing rules
+d)	Team Sharing
+1)	Account Team
+2)	Case Team
+3)	Opportunity Team
+e)	Territories
+f)	Profile Level
+1)	View All
+2)	Modify All
+3)	View All data 
+4)	Modify All data
+g)	Permission set
+1)	View All
+2)	Modify All
+3)	 View All data 
+4)	 Modify All data
+
+
+
+ 
+
+
+ 
+
+ 
+
+
+OWD 
+
+Navigation in Classic:
+                  Setup->Administrate->Security Controls-> Sharing Settings
+ Navigation in Lightning:
+ 	Setup->Security->Sharing Settings.
+
+OWD: Organization wide default’s
+	OWD Private Permission: Only Owner of the record can see the record and perform read, write, delete and transfer. 
+	OWD public read: every user in organization can see every record. On own record he can perform R/W/D/T and on others records only read operation.
+	OWD public read/Write: every user in organization can see every record. On own record he can perform R/W/D/T and on others records only read/Write operation.
+	OWD public read/Write/transfer: every user in organization can see every record. On own record he can perform R/W/D/T and on others records only read/Write/transfer operation.
+This option Available only for Lead/Case object only.
+	OWD public Full access: every user in organization can see every record. On own record he can perform R/W/D/T and on others records only read/Write/transfer/delete operation. This option Available only for Campaign object only.
+	Controlled by Parent: When two objects are connected by Master detail relationship then Child object will not have any owner field. OWD applied for Master object same OWD will applied for Child object as well which is called Controlled by parent. 
+
+
+
+ 
+ 
+
+
+ 
+
+ 
+
+
+Role Hierarchies
+
+	If we enable grant Access using Role Hierarchy option in sharing setting the people who are the above role to you, they can perform R/W/D/T operation.
+	For all standard objects this option by default enable. For custom objects we need to enable manually.
+
+ 
+
+Sharing Rules
+
+	Sharing rules are used to grant extra permissions to a group of peoples Based business requirement. Whatever permissions we get through OWD we will get and extra permission we will get through Sharing rules.
+	By sharing rules we can’t reduce the permission we can only able to give extra permissions.
+These is same to permission sets only, but permission sets perform on object level and sharing rules on the record level.
+	When OWD is private/Public read but we need to grant extra permission then will go for sharing rules.
+	Using sharing rules we can’t share to a particular user either we can share with Role , Role& Sub and Public Group.
+	At least one user does not have the R/W permission in organization then Sharing Button will visible in record. If we open any record in any object, sharing button not visible means every user in the Organization have the read/Write permission May be because of profile/Permission set/OWD/Sharing rules. If we click one the sharing button, then we can be able to see the who all are have the access to that record and the reason(OWD, Sharing rule or permission set or Team sharing or Territory).
+	  We are 4 different type of sharing rules
+1)	Owner based sharing rules
+2)	Criteria based sharing rules
+3)	Manual Sharing rules
+4)	Apex based sharing rules
+ 
+	As per the above example if we set OWD as Private then Owner of the records can only access the data as below.
+Sam:C01, Ram:C02, Kiran:C03, Prasad: C04
+Now our requirement to see the records as below then we go for the sharing rules.
+Sam:C01, C02,C03
+Ram:C01, C02
+Kiran:C03
+Prasad:C04, C03
+
+	Queue: If you want a group people to be a owner we will go for concept of Queue. We c can’t be create queue on Account, Contact opportunity and User objects.
+	We can create queue on every custom object.
+	The members of the queue can perform Read/Write/Transfer only record. Can’t perform delete operation.
+
+Navigation in classic:
+	Setup->Administer-> Manage user->Queues 
+	Navigation in Lightning:
+	Setup->Administration ->users->Queues 
+	Public Group: Group of users wrapped under one name. Public group can’t be owner of the record. If group is created by Admin, then it’s a Public group.
+	Private Group: Group of users wrapped under one name. Private group can’t be owner of the record. If group is created by other than Admin(Any other user), then it’s a Private  group.
+
+Navigation in classic: 
+Setup-> Administer-> Manage Users-> Public Groups.
+
+Navigation in Lightning:
+	Setup->Administration ->users->Public groups 
+
+Navigation in classic.
+Setup-> Administer-> security Controls->Sharing Settings-> Go for the object and create a new rule.
+Navigation in Lightning.
+Setup-> Settings->Security-Sharing Settings-> Go for the object and create a new rule.
+
+1)	Owner Based sharing rules
+Owner based sharing rule will apply exist data and newly created data as well.
+
+Use case:  In below hierarchy, HR execute data will visible to only HR manger not to the VP and CEO . 
+Solution: If we enable Grant access using role hierarchy, HR execute data will visible to HR manger, VP and CEO as well. So, we need to disable to Gran access using role hierarchy and create sharing rule that HR executive role data share with HR Manger role then only HR manger role will able see the HR executive role data not be able see the VP and CEO role.
+
+ 
+
+ 
+
+ 
+
+2)	Criteria Based sharing rules
+We share the record based on conditions like only active records can share with either Role,
+Role &Sub and public groups. 
+
+3)	Manual Sharing
+If you want to share any particular record, Go the record and click on the sharing button and then click ADD button then you can select Role, Role&Sub, Public group or you can share with a Particular group.
+In Manual sharing only we share the record with a particular user.
+
+
+Use case: By default, ‘Manual user Record sharing’ option is disabled so one user can’t edit other user details but they can see the user data. Suppose User B want to update the user A details in user setting. Fellow the below steps.
+
+Before to the settings: There is no option to edit.
+
+ 
+
+
+	Login to user ‘A’, go to sharing settings and enable the ‘Manual user Record sharing’ option. Now click on the user ‘A’ and click on sharing button then add user ‘B’ in the list.
+ 
+Click Sharing Button.
+ 
+
+Add the user in list.
+ 
+
+	Now User ‘B’ can be able to edit the User ‘A’ details.
+ 
+
+4)	Apex Based Sharing rule.
+Wherever we can’t achieve the sharing using Owner based, Criteria and manual sharing then we will go the Apex based sharing rule(Programmatical ).
+
+
+
+
+Team Sharing
+We can be able to create Team only on Account, Opportunity and case only. Other objects we don’t have Team sharing concept.
+	Account team
+Navigation in Classic
+		Setup-> Build-> Customize ->Account-> Account teams then create a team roles.
+Navigation in Lightning
+		Setup->Platform tools->Feature Setting-> Sales-> Account teams.
+
+o	After enabling the account team role and go to the account and add team members Bottom section account team at bottom of the every record level .
+o	If we want to create to default team for user then go to user and create a default team for Account.
+o	We can create a set of users as team and will share the set of permissions.
+o	Each account record we need to set a Team sharing option manually.
+
+	Opportunity Team
+Team together handling the opportunity is call Opportunity team. In Below example Capital Info Sol required the S/W, hardware and Insurance then team together will provide the opportunity to Capital Info Sol.
+
+ 
+
+
+Navigation in Classic
+Setup-> Build-> Customize ->Opportunity-> Opportunity  teams.
+
+Navigation in Lightning
+Setup->Platform tools->Feature Setting-> Sales-> Opportunity->Opportunity teams.
+o	Each Opportunity record we need to set a Team sharing option manually.
+o	If we want to create to default team for user then go to user and create a default team for opportunity.
+ 
+
+	Case team
+Same Account team and opportunity we can create a Case team.
+
+Territory Sharing
+	Data will shared on the territory(Location). Territory Sharing rule option only available for Account Opportunity and Case object. 
+	Once account is visible then we can set related permission on the Opportunity and cases of that particular account record (Read only or Read/Write).
+	After creation territory we can assign the users and we can manually assign the Records or we can create rule(Filter).
+
+Navigation in Classic
+Setup-> Administer -> Manage territory 
+
+Navigation in Lightning
+Setup->Platform tools->Feature Setting-> Sales-> territory ->territory Settings.
+
+In Below example Employee from Hitech city branch can be able see the Hitech city, Madhapur and Kondapur Data. These is also work like Hierarchy.
+
+ 
+ 
+
+Field level security
+
+	Field level security:
+ 
+	In Field level security we have only Visible and read only.
+	Field is required at the Field level then it is mandatory field for all page layout. If it is enabled required at page layout then it is mandatory for that page layout only.
+ 
+	Permission Given at profile level can be reduced at Page layout but can’t be increased at Page layout.
+ 
+Navigation in Classic:
+	Setup->Administer->Security controls->Field Accessibility
+Navigation in Lightning:
+	Setup->Settings->Security->Field Accessibility.
+
+Use case
+First we need to provide the object level permission then provide at record level.
+Object level permission at Profile level if we required any extra then create a permission set.
+ 
+
+Record level access will be provide by using OWD, Role hierarchy, Sharing Rules.
+ 
+
+
+ 
+
+
+
+
+6)Automating Business process
+
+Business process
+	Business process is a series of steps performed by a group of stakeholders to archive a Goal.
+ 
+
+  
+
+ 
+
+Workflow
+
+	We can create 500 workflows on a single object but only 50 workflows can be active.
+o	In Immediate actions we can create up to 40 Actions(10 tasks, 10Email,10 Field update, 10 Outbound messages).
+o	In Time based actions we can create up to 10 time Trigger for each trigger 40 Actions(10 tasks, 10Email,10 Field update, 10 Outbound messages).
+
+	Workflows are automated process to send E-mail alerts, Assign task, Update fields on trigger criteria based requirements.
+	In work flow we have 3 steps.
+1)	Select Object: select object on which we have to create Workflow.
+2)	Selection criteria: Define evaluation criteria and Rule criteria.
+3)	Workflow Action: Create action to performed like Sending Email, update field, new out bound message and we add Time trigger to perform on specific time.
+
+	Workflow rule is created on object level and we need to activate the Workflow rule.
+	To create or change workflow rules, email alerts, tasks, field updates, and outbound messages: “Customize Application” Permission required for the user profile.
+
+Navigation in classic 
+	Setup->Build->Create-> Workflows and approvals.
+Navigation in lightning
+	Setup->Platform tools-> Process Automation->Workflow rules.
+ 
+
+ 
+
+Evolution Criteria
+ It will tell when I should check the rule. we have 3 option on evolution criteria.
+	Created: Whenever new record created then it will check the rule.
+	Created and every time it’s edited: whenever new record created or edited every time check the rule. We can’t create the Time base workflow actions with this option.
+	Created and Any time it’s edited to subsequently meet criteria: Whenever new record created it will check the rule. 1st time modifying it will check the previous record if it meet the rule then don’t check. 2nd time modify previous record not meet the rule then check the rule.
+	In below example rule is Amount > 5000.
+o	When newly created rule was checked and meet the criteria
+o	1st time modifying already newly created record meet the rule(7000> 5000) so don’t check the rule.
+o	2nd time modifying already 1st time modified record meet the rule(9000>5000) so don’t check the rule.
+o	3rd  time modifying already 2nd time modified record not meet the rule(2000 not Greater than the 5000) so check the rule.
+
+ 
+
+Rule Criteria: These are 2 types. While creating rule we can use the Select objected data , parent object data, parent parent object data and current user login details.
+1)	Criteria based: 
+2)	Formula based:
+
+
+Workflow Actions
+Workflow actions are 2 types.
+	Immediate actions 
+o	Task
+o	Email sent 
+o	Field update 
+o	Outbound message
+	Time-based actions : 
+o	Task
+o	Email sent 
+o	Field update 
+o	Outbound message
+Immediate Actions
+
+1)	Task: Task is the Assigning the work to a user and notifying him when should be completed.
+o	On standard objects we can create a task. While creating custom object if enable ‘Allow Activities’ Then only we can create task on Custom object. 
+o	We check the assigned task at home page in My task section or if open the record, Activiti history we can see the assigned task.
+
+ 
+
+
+o	We can assign task to User, Role or Owner.
+o	If we assign the task to user then Task will be assigned to user. If we assign the task to Role(More than one user ) then Task will be assigned to owner of the record. If we assign the task to Role(Role have only one user) then Task will be assigned to Role user. 
+
+ 
+o	If we assign the task to owner(User) then Task will be assigned to Owner. Suppose if the owner queue then task will be assigned to who user initiated the transaction.
+
+o	In below example record created by owner(Faraz) and Divya Modified the transaction task will be assigned to Owner(Faraz). Second record created by the owner(HydTeam) and Diya modified the record criteria meet the workflow and task will be assigned to Diya because of owner is Queue and since she did transaction. 
+
+ 
+
+
+2)	Send Email: Whenever criteria meet then sent an email notification. we have 4 type of email templates.
+a)	Text: Normal Template
+b)	HTML: We can apply styles like Bold, Italic and colors of the text using HTML functions.
+c)	Custom (Without using classic Letter Head): Test
+d)	Visual Force
+
+Navigation in classic:
+	Setup->Administer->Communication Templates->Email templates.
+Navigation in Lightning:
+	Setup->Administration->Email and choose lightning email template.
+
+o	User can send 1000 emails for day and organization can send 20L emails per day.
+o	Letter heading Lighting: To upload logo for letter head, go to classic environment and upload your logo in to Documents folder. Then use that logo in Lightning to crate enhanced letter head, Got o app launcher, enhanced letter head. Create letter head and use.
+
+3)	Field update:
+o	Using workflow, we can update the Current object fields or Master object(Having Master details relationship) fields only.
+o	Example: If objects A(Master) and B(child) have master details relationship. if we create a Field update workflow on object ‘A’ then we can update only Object ‘A’ fields since it is master. If we create a Field update workflow on object ‘B’ then we can update Object ‘A’ and ‘B’ fields since it is master detail relationship.
+ 
+o	Example: If objects A(Master) and B(child) have Lookup. if we create a Field update workflow on object ‘A’ then we can update only Object ‘A’ fields since it is master. If we create a Field update workflow on object ‘B’ then we can update ‘B’ fields since it is Lookup relationship.
+o	If we crate more than one rule then it will evaluate first rules and perform actions. In below example on created record  rule1&2 are true perform action and rule 3 false don’t perform.
+
+ 
+
+o	If both the actions(Rule1 And Rule2)  are trying to update the same field then order of  work flow rule created date updating result will  be shown. Suppose rule 2 created on 2-nov 2020 and rule1 created on 15 Nov-2020 the rule1 execute first and then rule2. Accordingly action as well .
+o	If workflow rule1 and rule 2 have 2 actions then it will execute rule based creation date first and then action accordingly on date of creation.
+o	All work rules first check the condition at record level before performing the action. In below example all rules are true at record level then execute rules and perform action date of creation.
+o	At record level it will check all at once and the once true then it will execute below order. In Below example workflow Rule 3 will execute first(Because of it’s created on 17-Aug-2018) and then workflow rule action2 and action1. Then Workflow1 will execute and then work flow2 will execute.
+
+ 
+
+o	 At record level if any rule fail then if we enable the ‘Re-evaluate workflow rules after field change’ then it will re-evaluate the all failed rules again. 
+o	In Below Example we not enabled the re-evaluate option so on rule1 will execute.
+
+ 
+o	In below example(Red Color) at record level Rule1 true and rule2 false but we enabled the revaluate on rule1 so first it will evaluate rule1 and update field. After field update it will re-evaluate failed rule2(Only failed rules, once rule true and executed then it will not execute again) now it true and update the field. For rule2 we did not enable the Re-evaluate option so it won’t check for any failed rules.
+o	In below example (Green Color) at record level Rule1 true and rule2 false but we enabled the revaluate on rule1 so first it will evaluate rule1 and update field. After field update it will re-evaluate failed rule2 now it true and update the field. For rule2 also enabled the Re-evaluate option so it checks for is there any failed exist if yes it will re-evaluate those else nothing will happen (Again rule1 will not execute since it is already executed).
+
+
+ 
+
+o	While creating field update action we can enable the ‘Re-evaluate workflow rules after field change’ Option. 
+
+ 
+
+
+4)	Outbound Message
+o	If we want to send the some information from SFDC to some third party system through Web services after evaluation criteria matched will go with the Outbound message.
+o	Outbound Messages—Send a secure, configurable API message (in XML format) to a designated listener.
+o	Example: Trigger an outbound API message to an external HR system to initiate the reimbursement process for an approved expense report.
+o	While creating Outbound message we need to provide the third-party web service URL.
+
+Time-based Actions
+
+	Action will execute the on time interval given. For Single work flow we can create up to 10 time triggers and for each time trigger we can create 40 actions. We create time trigger calculation on date field like Rule Trigger date, Record created date, record last modified date and date fields in the object.
+	While activating the Time based work flow rule we need to provide the Default workflow user(While executing the time based workflow rule who is user) and Email Approval Sender( Enabling email approval response lets users reply to email approval requests by typing APPROVE or REJECT in the first line and adding comments in the second line.)
+	To check Time based rule trigger added or not got to below navigation or check the Debug Logs.
+Classic:
+	Setup-> Monitor-> Time-based workflow then provide the details in Filter conditions.
+Lightning:
+	Setup-> platform Tools->environments->Monitor-> Time-based workflow then provide the details in filter conditions.
+
+Debug logs: first add the to debug log then create a record now we can be able to see the order of execution in debug logs.
+
+Use Case1: In Below example rule(City= Hyd) is true and Time trigger added to execute on 5-July-2019 But on 30-Jun-2019 some one modified the record changed the city to ‘Bang’. Now on execution day action will perform or Not.
+
+Sol: On record creation date rule is true then trigger added but if some modified and rule is false because of the Modification then the trigger will be removed from the queue. Trigger it self not there so no action will be performed.  To see this enable Debug log for the user and perform below example.
+
+
+ 
+Use Case2: If the date is postponed then exist trigger execution date will update accordingly. In Above example if the date in record modify to 2-Jul-2019 then execution date of trigger will be updated to 12-July-2019.
+Use Case3: If the date is preponed then exist trigger will be deleted and created new trigger with the dates accordingly. In Above example if the date in record modify to 10-Jun-2019 then New trigger will be added and execution date is 20-Jun-2019.
+Use case4: If the calculated execution date if less than today then how when the trigger will executed. Salesforce starts to process the field update within an hour after you create the record.
+	
+		
+
+
+
+ Process Builder
+
+	Process Builder: It is also same as of workflow only but in workflow we can able to update the fields only in current object or Master object whereas in process builder we can be able update fields in both master and child object as well. 
+	In below example if we want archive below conditions in workflow we need to create 3 work flow rules but in in process builder we can do all with one process builder.
+ 
+
+	In process builder when condition meet we can create a record on any object.
+	using workflow we can’t post message in Chatter but in Process builder we can post message in chatter.
+	In process builder we can call Apex classes but not in workflow.
+	We can submit the record for approval in process builder not in Workflow.
+	Process builder can be called once record created/Modified or Other process builder can call process builder.
+
+Navigation in classic 
+	Setup->Build->Create-> Workflows and approvals->Process Builders.
+Navigation in lightning
+	Setup->Platform tools-> Process Automation->Process Builder.
+	One process builder activated we can’t modify it either we can create a new process builder or we can clone it to a new version.
+	In process builder also we have ‘Immediate action’ and ‘scheduled action’.
+
+ 
+
+In process builder Task is nothing but we need to select ‘create a new record’ action and then create a record in Task object.
+ 
+
+Approval Process
+
+	Approval Process:
+ Trail head: Building a discount approval process
+
+ 
+
+ 
+ 
+ 
+	Approval process are 2 types
+o	Jump Start wizard: Single step and simple process
+o	Standard setup wizard: Single step complex process or multistep complex process.
+
+Navigation in classic
+	Setup->Build->Create-> Workflows and approvals then Approval process.
+Navigation in lightning
+	Setup->Platform tools-> Process Automation->Approval process.
+	We need to activate the Approval process to perform.
+	If you want send the record for Approval, we need to check the submitter user have access on that record or not.
+Jump Start Wizard
+
+Steps In Jump start wizard: Select Object and select type Approval process as Jump start wizard.
+ 
+
+1)	Name of the Approval process
+2)	Entry Criteria: Filter condition 
+3)	Specify Approver field and record editability properties: Specify the approver name (Who need to approve the record like manger. In this step if ) and who can edit the record only Admin or Admin along with current assigned approver.
+
+o	In Below Example record owner is Sam. If we are not enabled the ‘Use Approver field of account owner’ then Ram is submitting the record for Approval process then it will be assigned  Ram’s manger(Submitter manger).
+o	In Below Example record owner is Sam. If we are enabled the ‘Use Approver field of account owner’ then Ram is submitting the record for Approval process then it will be assigned  to Sam  manger(Account owner  manger).
+
+ 
+
+
+ 
+
+
+
+4)	Select Email template: Select email template that send to Approver
+5)	Select Fields to display on Approval page layout.
+6)	Specify initial Submitters. Who will submit the record for approval process like User, owner, Public groups, Role and Role&Sub. In this step we can enable the allow submitters to Recall approval requests option.
+
+Standard Step Wizard
+
+Steps In Standard step : Select Object and select type Approval process as Standard step start wizard.     
+ 
+1)	 Name of the Approval process
+2)	Entry Criteria: If entry criteria is meet then we can able submit the record for Approval otherwise we can’t submit for approval. 
+3)	Specify Approver field and record editability properties: Specify the approver name (Who need to approve the record like manger. In this step if ) and who can edit the record only Admin or Admin along with current assigned approver.
+o	In Below Example record owner is Sam. If we are not enabled the ‘Use Approver field of account owner’ then Ram is submitting the record for Approval process then it will be assigned  Ram’s manger(Submitter manger).
+o	In Below Example record owner is Sam. If we are enabled the ‘Use Approver field of account owner’ then Ram is submitting the record for Approval process then it will be assigned  to Sam  manger(Account owner  manger).
+
+ 
+
+
+ 
+
+4)	Select Email template: Select email template that send to Approver
+5)	Select Fields to display on Approval page layout.
+6)	Specify initial Submitters. Who will submit the record for approval process like User, owner, Public groups, Role and Role&Sub. In this step we can enable the allow submitters to Recall approval requests option.
+
+Once Approval process created we can configure following actions.
+ 
+	Initial Submission actions: Once record is submitted for Approval then it will be locked automatically. That movement when we submit the record for approval Record will locked apart from that if we want to perform any actions Email, Outbound, task And field update then we can configure in this section.
+	Approval Steps: 
+o	select the who can approve the request or we can select the approver at the time Submitting as well in section.
+
+ 
+
+o	In Approval we can create number of steps and it execute in sequence manner like Step1, 2 and so on. Also we can specify all records should go through this step or we can specify the criteria. 
+ 
+Step1: Step sequence
+ 
+                Step2: Specify the criteria.
+ 
+Step3: Select Assign Approver. We can specify the approver Automally or manually in this step.
+ 
+o	The approve can be able to the see all the record waiting for his approval in home page ‘Items to Approve’ Section.
+ 
+o	If we submit the record for more than one user then it is called as ‘Parallel Approval process’. These are 2 types
+a)	First Response: Approve or reject based on the First response coming from the either user1 Or user2.
+b)	Unanimous: Required to get approval from All the approvers then only record will be approved. If anyone user reject, then record will get rejected.
+Example: Claim for International trip. After submitting the expense report need to get the approve from Workday manger, Finance team and finally Accounting team. If all are approved, then Expense report will approve. If in one rejected it will get rejected.
+o	In this approval steps section, after creating the approval step we can create actions to the Approval or Rejection like Task, Email alert, Outbound message and Field update. 
+
+ 
+
+ 
+	Final Approval Action: In this Section By default record will be in lock for editing. If we want, we can choose Unlock record for editing. Along with this we can perform actions like task, Email Alert, Field update and Outbound message.
+ 
+
+
+	Final rejection Actions: In this Section By default record will be in unlock for editing. If we want, we can choose lock record for editing. Along with this we can perform actions like task, Email Alert, Field update and Outbound message.
+ 
+
+	Recall Actions: In this Section By default record will be in unlock for editing. If we recall the record, then we can be able to edit the record by default. Along with this we can perform actions like task, Email Alert, Field update and Outbound message.
+ 
+
+	If we send a record to a queue for approval if any one of user in queue can approve/reject. 
+	Suppose few records sent for User ‘A’ approval now due to some reason we need to Reassign all request from User ‘A’ to User ‘B’ then we will go with ‘Mass transfer Approval request’.
+ 
+Delegated Approver: Record assigned for the User Approval, if we configure delegated approver in User setting then on behalf of User, delegated approver can also take the decision like Approve/Reject. While creating approval process if we enable the option ‘The approvers delegated may also approve the request’ then delegated approver also can approve the request.
+Example. On User ‘A’ we have configured delegated approver as User ‘B’. Now if submitted record for Approval from user ‘A’ then either user ‘A’ or User ‘B’ can approve/reject the record.
+Navigation:
+Administer->Manage users-> Users-> Click edit on the particular user.
+Chatter Post: While creating custom object we need to enable the allow chatter. With chatter also we can approve the record. While creating the approval process in step4 we can select the chatter template.
+Navigation in classic:
+Administer->Build->Customize -> Chatter -> Chatter settings -> edit then enable the chatter settings. 
+Navigation in Lightning:
+Administration->Platform tolls->Feature settings->Chatter-> Chatter settings -> edit then enable the chatter settings. 
+o	Also here we have option ‘Approval posts’ if we enable this then we can approve the record from chatter itself.
+o	After enabling chatter go to the feed tracking and select the Object and select the fields which want to display in chatter message.
+o	For chatter templates we can create in post template option in Workflows and approval section and this post template we can use in Chatter.
+Email Notification: Through email also we can be able approve the request. While creating the approval process in step4 we can select the email template. Once approver receives an email if he replied like Approved/yes then request will approve or replied like reject/No then request will be rejected.
+Navigation in classic:
+	Setup->Administer->Communication Templates->Email templates.
+Navigation in Lightning:
+	Setup->Administration->Email and choose lightning email template.
+Approval in Chatter: 
+	To enable Approval requests in Chatter:
+o	From Setup, enter Chatter Settings in the Quick Find box, and then click Chatter Settings.
+o	Click Edit and In the Approval Posts section, select Allow Approvals.
+
+Lightning Flow
+
+	Lightning Flow: these 2 types i.e screen flow and Auto launched flow.
+Trail head: flow basics and Lightning flow.
+ 
+
+ 
+
+
+	Lightning Flow—the product(The name of the tool) that encompasses building, managing, and running flows and processes.
+	Flow Builder—a point-and-click tool for building flows.
+	Flow Interview: it is nothing but once flow stated it will be callas the Flow Interview. If we want to see this to the flow debug the step is the Flow interview.
+
+ 
+
+	Flow—the part of Lightning Flow that automates a business process by collecting data and doing something in your Salesforce org or an external system.
+
+	Flows are two types 
+o	Screen flow: it will mainly user interface involved.
+o	Auto lunched flow: No user interface. Work in backend. Auto lunched flow need some input so basically we will give it from Process builder(It is one example).
+ 
+ 
+ 
+
+	In Flow builder divided into 3 blocks
+1)	Elements
+2)	Connectors
+3)	Resources
+1)	Element: Each element is a step in the flow that instructs the flow on what to do. Those instructions vary based on which kind of element it is. We like to think of flow elements in terms of three different buckets: screens, logic, and actions.
+o	Screens: Display data to your users or build a form to collect information from them with Screen elements.
+The Runtime Experiences: these setting are there in Process automation setting
+There’s one more important consideration for screen components: which flow runtime experience they’re supported in.
+Flows have two different runtime experiences: Lightning runtime and Classic runtime. Like its name suggests, Lightning runtime looks and feels like Lightning Experience, while Classic runtime looks and feels like Visualforce.
+
+All screen components are supported in Lightning runtime, but not all screen components are supported in Classic runtime. Here are three indicators that a component requires Lightning runtime.
+•	The component icon is a lightning bolt.
+•	No preview is available for the component. 
+•	A warning that a screen component requires Lightning runtime appears when the flow is saved. 
+Make Your Flows Look Like Lightning
+	Salesforce offers two runtime experiences that determine the look and feel when someone runs a flow. To make your flows blend in with Lightning Experience, make sure that Lightning runtime is enabled in your org.
+	From Setup, enter Automation in the Quick Find box, and then select Process Automation Settings.
+	Verify that Enable Lightning runtime for flows is selected and Save your changes.
+
+o	Logic: Once you collect the data you need, what do you want to do with it? With logic elements, evaluate that data and manipulate it according to your business requirements. Create branches, update data, loop over sets of data, or pause until a specified time. Logic operates only in the flow. If you use logic elements to evaluate or manipulate information in your flow, the resulting data can’t be accessed after the flow finishes. Use an action to store that data somewhere outside of the flow.
+
+o	Actions: Actions instruct the flow to do something outside of itself, such as in the Salesforce database or in an external system. Flows can look up, create, update, and delete Salesforce records. They can also create Chatter posts, submit records for approval, and send emails.                                                                                                                                                                                  
+
+Action Types
+Without creating or configuring anything else in Salesforce, you can use these actions.
+
+	Post to Chatter.
+	Send Email.
+	Submit For Approval.
+	Activate or Deactivate a Permission Set.
+	Global or object-specific actions provided by Salesforce.
+You can also include actions you create with clicks.
+
+	Other flows in your org are available in the Subflow element.
+	Custom global or object-specific actions are available in the Action element.
+You can also include actions that require code. And you can install custom actions from AppExchange or a third-party library.
+	To do something in the Salesforce database, build or install an Apex action.
+	To do something in the browser, build or install a local action.
+
+ 
+
+2)	Connectors: Connectors define the path that the flow takes as it runs. They tell the flow which element to execute next. It like a Arrow.
+3)	Resources: Resources are placeholders that you reference throughout your flow. For example, look up an account’s ID, store that ID in a variable, and later reference that ID to update the account.
+Type of resources:
+o	Variable
+o	Constant
+o	Formula
+o	text 
+o	choice
+o	Record choice set
+o	Pick list choice set
+o	Stage. 
+
+Data Type	Use to store...
+Text	IDs, descriptions, and other text or long text data.
+Record	Field values from a record, such as an opportunity. When this data type is selected, you create a record variable.
+Number	A numeric value.
+Currency	A currency values.
+Boolean	A yes/no value, such as whether a checkbox was selected.
+Date	A date value
+Date/Time	A date and time value.
+Picklist	A picklist value
+Multi-Select Picklist	Picklist values, separated by semicolons.
+Apex-Defined	Field values from an Apex class. When this data type is selected, you create an Apex-defined variable.
+
+	How many values should the variable store?
+By default, variables store one value that’s compatible with the selected data type. If the data type is Number, the variable stores one numeric value. If the data type is Record, the variable stores field values for one record.
+But what if you need to store multiple values in one variable, such as multiple email addresses? When you create a variable, you can enable it to do just that with the ‘Allow multiple values’ checkbox. When that option is selected, you need to create a collection variable.
+	Should the value be available from outside the flow? 
+Each variable in your flow gets its value from somewhere. Some variables get their values from inside the flow, such as when the user enters something in a screen component or the flow looks up field values from a record.
+Other variables get their values from outside of the flow—namely, from whatever started the flow. For example, if your process builder started the flow of  an Account record page, you can pass the account’s ID into the flow by using the flow’s input variables. An input variable is a variable that has the Available for input checkbox selected.
+If whatever starts the flow should be able to set the value of a variable, make sure the variable is available for input. When in doubt, go ahead and make your variable available for input.
+
+When you configure your variable, you see another checkbox: Available for output. When selected, you’ve created an output variable, which means the value is accessible to something outside the flow.
+
+	Flows need to search in Setup to create lightning flow.
+	In Flow we can use run button to do sanity check whether your flow working properly or not also we can do the debug using Debug button.
+	We need to activate the flow to available for users.
+	In flow we have a Versioning. Once flow activated if we want to do any changes on that if we want to do changes then deactivate and created a new version by cloning it. 
+	If it is a screen based lighting flow then create Lighting app builder to add screen flows to the app. Auto lunched flows can be invoked by the process builder.
+	Testing Options in Flow Builder
+o	Run: runs the most recent saved version of the flow that you have open.
+o	Debug: does everything that Run does, but with some superpowers thrown in. It lets you enter values for the flow’s input variables and display debug details while running the flow. That way, you can verify how the flow processes data.
+	Flow Interview
+Each time a flow runs, a flow interview starts. A flow interview is an instance of a flow. Based on the data provided for that interview, either by input variables or input components on a screen, each interview can take a different path through the flow and result in different actions being performed.
+	Permissions required: 
+o	In the profile ’Manage flows’ This option enabled users only can create and activate the flows.
+o	If the user doesn’t have the ‘Manage Flows’ permission, then user want to Run the flow then he required any one of the below permission.
+	The Run Flows user permission
+ 
+	The Flow User field enabled on their user detail page
+ 
+
+	If we want to check the each flow access, Click on the flow edit action in action bar then If Override default behavior and restrict access to enabled profiles or permission sets is selected for an individual flow, access to that flow is given to users by profile or permission set.  
+If we enable the override option then only particular profile users can be run the Flow.
+ 
+	Flow Actions
+A flow action is a custom action that renders a flow, and as such it’s perfectly suited to these kinds of use cases. Once you create a flow action and add it to a page layout, it appears in the associated record's page-level action menu in Lightning Experience where users can find it to launch the flow.
+
+Navigation:
+o	From Setup, click the Object Manager tab. Click Contact, then click Buttons, Links, and Actions.
+o	Click New Action and select type as flow. 
+
+ 
+
+Assignment rules
+
+	Assignment rules:
+ 
+
+
+7) Audit and Troubleshoot
+
+Trail Head: Debug Logs
+ 
+
+Debug Logs
+
+	Debug logs
+ 
+
+ 
+
+
+
+
+
+Email Logs
+
+	Email Logs
+ 
+
+
+
+Audit Trails
+
+	Set up audit trails
+ 
+
+
+
+Field History tracking 
+
+	For one object we can have max 20 fields will set field tracking history 
+	All changes will store in field tracking history object inter by the salesforce.
+	This changes will happen in records level
+	For Multi picklist, text area long and text area rich  data types we can’t track old and new value but we can track only who changed the record.              
+	All standard objects field tracking history will be enabled already.
+	Field history tracking will enabled at Object level.
+	
+ 
+
+
+Feed tracking
+	The records that you work with from day-to-day have lots of fields of information. For example, an account has fields for an account number, owner, name, and parent account. Often, it’s useful for your users to be notified when a field value changes—an account gets a new owner or its name is revised. That’s where feed tracking comes in.
+	It lets you select the record fields to follow. When a tracked field changes, it triggers both Chatter posts and email notifications. Feed tracking makes it easy to see changes to critical records anytime, anywhere.
+	Here are fields that are tracked by default when you enable feed tracking for:
+o	Accounts: Account Name, Account Owner
+o	Cases: Case Owner, Priority
+o	Groups: Allow Customers, Description, Access Type, Information, Information Title, Name, Owner
+o	Contacts: Account Name, Contact Owner, Name
+o	Leads: Lead Owner, Lead Status, Name
+o	Opportunities: Amount, Close Date, Opportunity Name, Opportunity Owner, Stage
+o	Users: About Me, Address, Email, Manager, Phone, Title
+Navigation
+	From Setup, enter Feed Tracking in the Quick Find box, and then click Feed Tracking and select object and fields to track.
+	Select up to 20 fields to track.
+
+8)Data Management
+
+Trail Head: Data Management
+ 
+
+ 
+
+Data Import
+ 
+
+You can easily import external data into Salesforce. Supported data sources include any program that can save data in the comma delimited text format (.csv).
+Salesforce offers two main methods for importing data.
+4)	Data Import Wizard
+5)	Data Loader
+Data Import Wizard
+This tool, accessible through the Setup menu, lets you import data in common standard objects, such as contacts, leads, accounts, as well as data in custom objects. It can import up to 50,000 records at a time. It provides a simple interface to specify the configuration parameters, data sources, and the field mappings that map the field names in your import file with the field names in Salesforce.
+Use the Data Import Wizard When:
+o	You need to load less than 50,000 records.
+o	The objects you need to import are supported by the wizard.
+o	You don’t need the import process to be automated.
+Navigation in classic:
+	Setup->Administrator-> Data management-> Data Import wizard.
+Navigation in Lightning
+ Setup-> Platform Tolls-> Integrations->data import wizard
+
+This information can help you integrate your imported data into Salesforce.
+	New Values for Picklists and Multi-Select Picklists—If you import a picklist value that doesn’t match an existing picklist value:
+o	For an unrestricted picklist, the Data Import Wizard uses the value that’s in the import file.
+o	For a restricted picklist, the Data Import Wizard uses the picklist’s default value.
+	Multi-Select Picklists—To import multiple values into a multi-select picklist, separate the values by a semicolon in your import file.
+	Checkboxes—To import data into a checkbox field, use 1 for checked values and 0 for unchecked values.
+	Default Values—For picklist, multi-select picklist, and checkbox fields, if you do not map the field in the import wizard, the default value for the field, if any, is automatically inserted into the new or updated record.
+	Date/Time Fields—Ensure that the format of any date/time fields you are importing matches how they display in Salesforce per your locale setting.
+	Formula Fields—Formula fields cannot accept imported data because they are read-only.
+	Field Validation Rules—Salesforce runs validation rules on records before they are imported. Records that fail validation aren’t imported. Consider deactivating the appropriate validation rules before running an import if they affect the records you are importing.
+
+
+ 
+ 
+
+Data Loader
+this is a client application that can import up to five million records at a time, of any data type, either from files or a database connection. It can be operated either through the user interface or the command line. In the latter case, you need to specify data sources, field mappings, and other parameters via configuration files. This makes it possible to automate the import process, using API calls.
+Use Data Loader When:
+o	You need to load 50,000 to five million records. If you need to load more than 5 million records, we recommend you work with a Salesforce partner or visit the AppExchange for a suitable partner product.  
+o	You need to load into an object that is not supported by the Data Import Wizard.
+o	You want to schedule regular data loads, such as nightly imports.
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+Data Export
+You can easily export data from Salesforce, either manually or on an automatic schedule. The data is exported as a set of comma-separated values (CSV) files. Data export tools provide a convenient way to obtain a copy of your Salesforce data, either for backup or for importing into a different system.
+Salesforce offers two main methods for exporting data.
+1)	Data Export wizard
+2)	Data loader.
+
+1)	Data Export Service—an in-browser service, accessible through the Setup menu. It allows you to export data manually once every 7 days (for weekly export) or 29 days (for monthly export). You can also export data automatically at weekly or monthly intervals. Weekly exports are available in Enterprise, Performance, and Unlimited Editions. In Professional Edition and Developer Edition, you can generate backup files only every 29 days, or automatically at monthly intervals only.
+2)	Data Loader—a client application that you must install separately. It can be operated either through the user interface or the command line. The latter option is useful if you want to automate the export process, or use APIs to integrate with another system.
+
+
+Follow these steps to export data using the Data Export Service.
+1)	From Setup, enter Data Export in the Quick Find box, then select Data Export and Export Now or Schedule Export.
+o	The Export Now option prepares your files for export immediately. This option is only available if enough time has passed since your last export.
+o	The Schedule Export option allows you to schedule the export process for weekly or monthly intervals.
+2)	Select the desired encoding for your export file.
+3)	If you want images, documents, attachments, and so on included in your data, select the appropriate options.
+4)	Select Replace carriage returns with spaces to have spaces instead of carriage returns or line breaks in your export files. This is useful if you plan to use your export files for importing or other integrations.
+5)	If you're scheduling your export, select the frequency (only available for organizations with monthly exports), start and end dates, and time of day for your scheduled export.
+6)	Under Exported Data, select the types of data to include in your export. We recommend that you select Include all data if you’re not familiar with the terminology used for some of the types of data.
+7)	Click Start Export or Save. Salesforce creates a zip archive of CSV files and emails you when it's ready. Exports will complete as soon as possible, however we can't guarantee the date and time the export will complete. Large exports are broken up into multiple files. Follow the link in the email or click Data Export to download the zip file. Zip files are deleted 48 hours after the email is sent.
+ 
+ 
+
+ 
+
+ 
+
+
+ 
+
+
+
+
+External ID
+
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+9)Reports and dashboard
+
+Trail Head: Create reports and dash boards.
+Reports
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+	Reports are 2 types that are 
+o	standard reports 
+o	 custom reports. 
+	In Salesforce environment report will display only 2000 records if we want more than that we need to export in excel.
+	In join report we add up to 5 blocks which means that we get data from 5 objects.
+	In Custom report we can add up to 4 child’s.
+	To use standard report, go to the Reports item in the app launcher.
+	To create a custom report then go to below navigation.
+	At the time of Object creation if we enable ‘Allow reports’ then salesforce by default create the reports for the object otherwise we need to create manually in below navigation.
+	Report will run show the results according the User OWD. Example Admin(Will have all permissions) run a report in account object he got the result of 50 records. Now User ‘A’ will have OWD access on only 10 records then if he run a report then he can be able to see the 10 records only in report. Now User ‘B’ will have OWD access on only 15 records then if he run a report then he can be able to see the 15 records only in report.
+Navigation in Classic:
+	Setup->Build->Create->Reports
+Navigation in Lightning:
+	Setup->Platform tolls->Feature settings->Analytics->reports and dashboards.
+	Primary object with related object—Records returned are only those where the primary object has at least one related object record. In our example of Opportunities with Products, the only records that would be displayed on the report would be opportunities that have at least one related product record.
+	Primary object with or without related object—Records returned are those where the primary object may or may not have a related object record. If we were to create a custom report type, Opportunities with or without Products, then opportunities would be displayed whether or not they have a related product record.
+
+	You can have up to four related objects, and each can have the “with” or “with or without” distinction.
+
+ 
+
+Filters:
+Standard Filter: Standard filters are applied by default to most objects. Different objects have different standard filters, but most objects include the standard filters Show Me and Date Field . Show Me filters the object around common groupings (like “My accounts” or “All accounts”). Date Field filters by a field (such as Created Date or Last Activity ) and a date range (such as “All Time” or “Last Month”).
+Field Filter: Field filters are available for reports, list views, workflow rules, and other areas of the application. For each filter, set the field, operator, and value. With tabular, summary, and matrix reports, you can drag a field from the Fields pane to the Filters pane to add a report filter.
+Filter Logic: Add Boolean conditions to control how field filters are evaluated. You must add at least 1 field filter before applying filter logic.
+Cross Filter: Filter a report by the child object using WITH or WITHOUT conditions. Add subfilters to further filter by fields on the child object. For example, if you have a cross filter of Accounts with Opportunities, click Add Opportunity Filter and create the Opportunity Name equals ACME subfilter to only include those opportunities.
+Row Limit: For tabular reports, select the maximum number of rows to display, then choose a field to sort by and the sort order. You can use a tabular report as the source report for a dashboard table or chart component, if you limit the number of rows it returns.
+Use Report Formats
+There are three report formats available: Tabular, Summary, and Matrix. Tabular is the default format.
+Report Format	Primary Use Case	Supported in Dashboards	Report Charts Supported	Bucket Fields**	Formulas**	Cross-Object Formulas**
+Tabular	Make a list	 *		 		
+Summary	Group and summarize	 	 	 	 	
+Matrix	Group and summarize, by row and column	 	 	 	 	
+
+Type of reports:
+1)	Tabular: Tabular reports are the simplest and fastest way to look at your data. Similar to a spreadsheet, they consist simply of an ordered set of fields in columns, with each matching record listed in a row.
+2)	Summary: Grouping the records based on by field. Summary reports are similar to tabular reports, but also allow you to group rows of data, view subtotals, and create charts. Summary reports give us many more options for organizing the data, and are great for use in dashboards. Yes!Summary reports are the workhorses of reporting—most people find that most of their reports tend to be of this format.
+
+3)	Matrix: it is a row wise and column wise analysis. In below example grouped by the City and name. It will provide the count details also.
+4)	Joined: 
+
+ 
+	While creating report by default it will be the tabular report. If we add the group by rows then it called as summary report. If we chose the group by rows and cooumn then it is called as matrix report.
+
+Summary example.
+ 
+	
+	Matric example.
+	 
+
+
+Folders in reports:
+	My personal custom report folder: If we save report in this folder then only report created owner can be able see the report. In this report can’t be shared with any person.
+	Unified Public reports: any report that stored to this folder all the people who have enabled ‘Manage reports in public folders’ permission in profile can able to see.
+	Standard report folders: will hold only standard reports. We can store custom reports either in My personal custom report folder or Unified Public reports.
+Standard report folder examples:
+o	Account and contract report folder
+o	Opportunity Report folder
+o	Sales report folder
+o	Lead report folder
+o	Campaign report folder
+	Custom report folder: New is created by the user. Reports stored in this folder can be shared with any user based our requirement. These newly created custom folders We can share with  users, Roles, Roles& Sub , territories and Public groups.
+
+ 
+
+Dash Boards
+
+	Dash Boards:
+ 
+
+	Pictorial representation of your report is called dashboard.
+	In Dash boards we use Matrix and Summary reports only. Dash boards have 11 different styles.
+	While creating dashboard if gave ‘View dashboard as‘ some user ‘A’ then any user ‘B’ open this dash board then data will be shown in dashboard with User ‘A’ OWD permissions. 
+	When selecting the component type, consider the following:
+Component Type	When to use it
+               	Use a chart when you want to show data graphically. You can choose from various chart types.
+ 	Use a gauge when you have a single value that you want to show within a range of custom values
+ 	Use a metric when you have one key value to display.
+   	Use a table to show a set of report data in column form.
+Finally, when selecting a source report for use in a dashboard component, keep in mind that you can’t choose joined reports or historical trend reports.
+
+Sharing and subscribing the report
+
+ 
+
+ 
+10) Communities
+Navigation to enable the communties:
+Setup-> Build -> customize-> communities-enable the communities.
+	Give the domain name and check the availability and create it. Once community enabled we can’t disable the community.
+	Once we enable the communities then only custom objects will be visible for community license profiles to provide the custom object access at profile level.
+	You can Create up to 100 communities in your Salesforce org. Active, inactive, and preview communities, including Force.com sites are also counted in this limit.
+	Create a profile for community users.
+Create a new community,
+Navigation;
+Setup-> Build -> customize-> communities->all communities and then create a new community.-> choose temple and name of the community. 
+Template:
+ 
+
+ 
+
+
+Name:
+ 
+
+Once community created it will display home page there we have adminstartion option available there we we can choose who can and all.
+ 
+Choose profile who can log into this community. Once login chose tabs what tabs login user can see. In settings we need to activate the Community and once community activated if we want to deactivate we do it from Settings.
+ 
+In newly created community administration setting we have a login and registration in this we can allow external users can self-register. If the external users are self-registered for those we need to assign Profile and Account(In community every user must be a contact of an account so we need to give some default value if it is Honda show room community then contact also will be Honda show room).
+
+ 
+Now go to the login page we can be able to the SignUp option.
+ 
+ Click on signup then it display page like.
+ 
+
+Once after filling details and submit he can login to the community.
+
+	Create a contact and in contact we have option ‘manage external user’ click on that to create a sf Contact as a external user to use the Community and assign the community license and  community profile.
+ 
+
+Create this contact as External user by clicking on ‘Enable customer user’ and assign the community license and community profile we have created previous step.
+ 
+	
+	Contact will be the member of the community. To Apply the OWD for external user we need to enable the external sharing model in security control and remaing flow will be same. We can apply the OWD for external users also and will share records if required.
+	To communities we can login using FB,gmail, or linkdin by using Authentication provider.
+To create this follow below steps
+o	First login to the Linkdin.doveler.com with linkedin credentials and create a application enter your details. Once we create application it will give you the Client and secret key.
+ 
+o	Create Apex class to handle Authenication and provide Profiles what we required in the apex class.
+ 
+o	Now use this program in authentication provider to sync b/w LinkedIn and Salesforce.
+Navigation: Setup->Administer-> Security controls-> Auth providers. Create new Auth. 
+Enter the details and copy the consumer key and secret key from the LinkedIn application keys. In registration handler choose the  Apex program that we have created. 
+
+ 
+
+Once click on save , copy the Call back url and paste in the LinkedIn OAuth 2.0
+
+ 
+
+In LinkedIn Application, paste in the OAuth 2.0 and Add it.
+
+ 
+
+o	go to domain management and create new My domain name for the login page. Once domain activate click on login and deploy to users. Now edit the authentication service then select both SF and LinkedIn. 
+ 
+
+o	Now we can be able to see the login page as LinkedIn option as well.
+ 
+
+BY using community builder we can design page as per the requirement, builder will have components, settings, themes and page structure. 
+If we want make multi language option then in settings, languages by default languages and add the languages required. Then Add the languages Selector component  to the page so that users select preferred language. 
+
+Page variations and Audience:
+In Community App builder, Click on the page property and create a new page variation.  Based on the Audience we assign the particulate page to the set of user. Same way from the page we can allow to visible some component to some users only. 
+ 
+Criterial based on the country 
+ 
+
+ 
+
+ 
+
+
