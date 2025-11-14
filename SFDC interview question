@@ -1,0 +1,576 @@
+
+Rollup Summary
+ 
+
+ 
+:::::::How to enable callouts batch:::::::: 
+Implement Database.AllowsCallouts: 
+Add this interface to your batch class definition. For example: public class MyBatch implements Database.Batchable<sObject>, Database.AllowsCallouts. 
+Perform the callout: 
+You can make the callout within the execute() method of your batch class. It's best to perform DML operations after all callouts are complete to avoid hitting the callout limit within the same transaction, as per the developer.salesforce.com documentation. 
+Important considerations
+Callout limit: 
+A single transaction can only make up to 100 callouts. 
+Batch size: 
+Set your batch size to 100 or lower if each record requires a callout to stay within the limit. 
+Error handling: 
+Implement robust try-catch blocks to handle potential errors, such as timeouts or non-200 HTTP responses. 
+Asynchronous execution: 
+Batch Apex is an asynchronous process, which is ideal for long-running operations like callouts because it doesn't block the user interface. 
+
+:::::::Call out from Schedule:::::::
+No, you cannot directly make callouts from a Scheduled Apex class, but you can trigger them indirectly by having the Scheduled Apex class launch a Queueable Apex class or a future method which then performs the callout. Alternatively, you can chain Batch Apex jobs, where the Scheduled Apex class initiates the first batch, and a subsequent batch in the finish method or a new scheduled batch makes the callout. 
+Why you can't directly make callouts from Scheduled Apex 
+•	Pending Operations: 
+Salesforce does not allow callouts from Scheduled Apex because callouts are a pending operation, and the system prevents making a callout when other pending operations (like DML statements or asynchronous processes) are present in the same transaction.
+•	Transaction Limits: 
+A direct callout from a Scheduled Apex class would create a new, separate transaction, which is also restricted by the system.
+Workarounds to make callouts from a Scheduled job
+1.	Use a Queueable Apex Class:
+•	The Scheduled Apex class can call a Queueable Apex class that implements Database.AllowsCallouts to make the external callout. 
+•	This keeps the callout in an asynchronous context, avoiding the limitations of Scheduled Apex. 
+2.	Use @future Methods:
+•	The Scheduled Apex class can invoke a future method, which runs asynchronously and can handle callouts to external web services. 
+3.	Chain Batch Apex:
+•	The Scheduled Apex class can execute a Batch Apex job. 
+•	The finish() method of this batch job can then launch another Batch Apex job or a Queueable class to perform the callout.
+Use od external objects
+•	The data itself is never physically stored in Salesforce. Instead, the external object acts as a proxy to the external system.
+•	External objects are ideal for working with large amounts of data that you cannot or do not want to import into Salesforce. 
+•	By accessing data on demand, you avoid consuming Salesforce storage and processing power to store a copy of the data. 
+Best Practices integration
+•	Use OAuth 2.0 & Named Credentials for authentication
+•	Optimize API calls to avoid hitting limits
+•	Implement Retry Mechanisms & Error Handling
+•	Use Event Monitoring & Debug Logs
+•	Keep detailed documentation of the integration, including its purpose, components, and maintenance procedures.
+Call child comp method from parent
+//to call method of the child com we need to take reference of that comp by using query selector and then call method
+        this.template.querySelector('c-p2c-slider-component').resetSlider()
+
+
+1)	In lightning app builder,Previously custom labels are static(constant values) in lightning app builder. Now we can use this from the custom labels by using expression {!Lable.labelname}.
+2)	Previously we don’t have sharing option in lightning but in this release sharing button added for the lightning.
+3)	After this release, only @auraenabled apex class by default consider the with sharing.  Before to the release by default it will consider Without sharing.
+How to handle LWC to display to more than 50K records?
+Need to check
+When we can use integration immediately and batch?
+Need to check
+
+When account create 5k contacts if status high , if status low then create a 3K contacts. how we can bulkfy the trigger to avoid limits.
+
+Need to check.
+
+Q.How to convert to Multi select picklist to picklist.
+o	A. it is not recommended to change because multi select will more than option but in pick list it will have only one .still we need to do then we can do with apex data loader with minimal risk.
+	Take a backup
+	convert field to picklist
+	Remove multi select to single value in csv file with respect to your requirement
+	upload into salesforce.
+Q.What is view state error in VF.
+A. The view state captures the state of the page. the  state of its associated controllers and extensions and the component tree on the page. when we tried to display large no number data and Whenever the cache of the page is reached to 135kb then it will through View State error.
+Best Practices for Optimizing View State:
+
+a)Minimize Number of Forms on a Page
+b)Declare Variables as Transient to Reduce View State
+c)Recreate State versus Storing It in View State
+d)Use Custom Objects or Custom Settings to Store Large Quantities of Read-Only Data
+e)Refine Your SOQL to Retrieve Only the Data Needed by the Page
+f)Refactor Your Pages to Make Its View Stateless
+g)Consider Doing Your Own State Management in Certain Cases
+
+Q. Ajax action tags and define those.
+A. Action status, action pooler, action support, action region, action function 
+Q. Best practices of Apex trigger  
+A. 
+o	One Trigger Per Object and also Use a consistent naming convention including the object name (e.g., AccountTrigger)
+o	Logic-less Triggers
+o	Context-Specific Handler Methods
+o	Bulkify your Code : Trigers should be "bulkified" and be able to process up to 200 records for each call.
+o	 Avoid SOQL Queries or DML statements inside FOR Loops
+o	 Execute DML statements using collections instead of individual records per DML statement.
+o	Querying Large Data Sets
+o	Use @future Appropriately
+o	Avoid Hardcoding IDs
+o	Use Collections in SOQL "WHERE" clauses to retrieve all records back in single query
+Q. Best practices of test class.
+A.
+o	Create TestFactory class with @isTest annotation to exclude from organization code size limit .
+o	@testSetup to create test records once in a method  and use in every test method in the test class .
+o	try avoid Istest(SeeAllData ==True) whenver possible, so that original data will not be impacted.
+o	test class running user may not have permission to all the data so try to use System.runAs will not enforce user permission or field level permission .
+o	Use @Testvisible annotation to make visible private methods inside test classes.
+o	We should not focus on the  percentage of code coverage ,we should make sure that every use case should covered including positive, negative,bulk and single record .
+Single Action -To verify that the the single record produces the correct an expected result .
+Bulk action -Any apex record trigger ,class or extension must be invoked for 1-200 records .
+Positive behavior : Test every expected behavior occurs through every expected permutation , i,e user filled out every correctly data and not go past the limit .
+Negative Testcase :-Not to add future date , Not to specify negative amount.
+Restricted User :-Test whether a user with restricted access used in your code .
+o	Test class and method default access is private ,no matter to add access specifier .
+o	classes with @isTest annotation can't be a interface or enum .
+o	Test method can not be used to test web-service call out . Please use call out mock .
+o	You can't  send email from test method.
+o	User, profile, organization, AsyncApexjob, Corntrigger, RecordType, ApexClass, ApexComponent ,ApexPage we can access without (seeAllData=true) .
+o	Maximum number of test classes run per 24 hour of period is  not grater of 500 or 10 multiplication of test classes of your organization.
+
+Q. Best practices of writing Apex class.
+A.
+o	Apex code must provide proper exception handling.
+o	When querying large data sets, use a SOQL “for” loop.
+o	Avoid nesting loops within loops.
+o	We should not use SOQL or SOSL queries inside loops.
+o	we should not write DML inside the loop. 
+o	Execute DML statements using collections instead of individual records per DML statement.
+o	We should prevent SOQL and SOSL injection attacks by using static queries, binding variables or escape single quotes method.
+o	Should use SOSL rather than SOQL where possible.
+o	Should not use DML statements inside loops.
+o	Should not use Async(@future) methods inside loops.
+o	Asynchronous Apex should be Bulkified.
+o	We should not use hardcoded IDs as they may cause problem when moved to production.
+o	Break methods into multiple smaller methods if possible, making your code more modular and easier to read and maintain.
+o	Increase readability by indenting code and breaking up long lines.
+o	Avoid hard coded IDs and constants.
+o	Use relationship queries whenever possible.
+Q. we have a private method in Apex class and how to test this ethod from the test class?
+A. Use the @TestVisible annotation to allow test methods to access private or protected members of another class outside the test class. You can use @TestVisible Annotation for your method for apex class. You can able to call the private method from your test class,
+For example:Apex Class:
+@TestVisible private void example(){ //your code here }
+
+Ex: apex class
+
+public class TestVisibleExample {
+    // Private member variable
+    @TestVisible private static Integer recordNumber = 1;
+
+    // Private method
+    @TestVisible private static void updateRecord(String name) {
+        // Do something
+    }
+}    
+
+Test class:
+@isTest
+private class TestVisibleExampleTest {
+    @isTest static void test1() {
+        // Access private variable annotated with TestVisible
+        Integer i = TestVisibleExample.recordNumber;
+        System.assertEquals(1, i);
+
+        // Access private method annotated with TestVisible
+        TestVisibleExample.updateRecord('RecordName');
+        // Perform some verification
+    }
+}    
+
+Q. whenever your doing deployment if validation rules and process builder causing the issue how can resolve. 
+A. before deployment we can deactivate the validation rules, process builders. 
+Q. how to call apex class from process builder.
+A. to call any apex class from process builder the class must use @InvocableMethod’     
+Q. Governing limits and how to reduce SOQL queries. 
+A. use relationship SOQL whenever possibility of relationship object. Avoid SOQLs in loop.
+Q. Difference b/w SOQL and SOSL
+A. List<List<SObject>> searchList = [FIND 'SFDC' IN ALL FIELDS  RETURNING Account(Name),                                    Contact(FirstName,LastName)];
+FIND {Wingo} IN ALL FIELDS RETURNING Account(Name), Contact(FirstName,LastName,Department)
+SOQL(Salesforce Object Query Language)	SOSL(Salesforce Object Search Language)
+Only one object at a time can be searched(Search in Single object) using SELECT key word	Many object can be searched at a time(Search in entire organization or Database) using FIND keyword.
+Query all type of field	Query on only email, text or phone
+It can be used in classes n triggers	It can use in classes but not in trigger
+DML Operation can be performed on query results	DML Operation cannot be performed on search results
+Return Records	Return Field
+
+Q. what is Database.stateful
+A.  To exchange data b/w execute methods then we need to implement one interface called ‘database.Stateful’.By using database.stateful only non-static data will be exchanged.
+
+Q. difference b/w Insert and database.insert.
+A. whenever we are inserting bulk data if any error occurs then with insert all data will fail but if we use database.insert(subject, false) only failed record will get failed remaining record saves successfully.
+Q. what is use of Trigger.isExecuting.
+A. Returns true if the current context for the Apex code is a trigger. In triggers also we call class methods, if the method is invoke from trigger then Trigger.isexecuting will be true and if the is not called from trigger than it will return false. 
+Q. what is static variable.
+A. If you define variable as static, memory will be allocated only once i.e at the time ofloading the class. Static variables referred using class name. once value assigned it will not change it have same value entire process. 
+Q. order of execution of triggers.
+1)	A.  Fetch data
+2)	Validation rules
+a.	System validation
+b.	Custom validation
+3)	Before triggers
+4)	Check validation rules again
+5)	Duplicate check 
+6)	Save record 
+7)	After triggers
+8)	Assignment rules
+9)	Auto Response rules
+10)	Workflow rule
+11)	Workflow rule if any field update exist and call step 3
+12)	Flow and Process builder
+13)	Escalation rules
+14)	Entitlement Rules
+15)	Rollup Summary
+16)	Parent record updates
+17)	Criteria based sharing rules
+18)	Commit record
+19)	Send emails
+Q. Aura Bundle components:
+ A. Aura Application bundle have 
+	 
+Aura component will have following. Compare to application bundle component bundle have extra ‘Design’. 
+ 
+Event will have even only.
+ 
+
+Q. Difference b/w Contoller and helper
+A. Both are JS only. In controller we can call Apex class, events and we can call helper methods from controller only. If  there is any repeated code will keep in helper and access this from controller. From heleper we can’t call controller methods and also we can’t helper method from the component.
+Q. Lighting is MVC or MVCC,
+A. It is MVCC. 
+Q. types of events. 
+A. generally we have browser events like on click, onchange but in lightning we have events to transfer data from one component to other component. these divide in to 2 types. 1. Component events 2. Application events.
+1. component events: if event is fired by the child component then the event can be handled by either child component or parent component. 
+2. Application events: In application level event, if event is fired by the child component then the event can be handled by same child component or another Child component or parent component.  It is like a push-subscribe mechanism.
+Q. Can tell me about the ‘init’.
+A.  This is the predefined component. This Aura handler will be fired before the content of the component is loaded.  
+Attributes: 
+a.	Name: 
+Init: initialization. 
+b.	Value:  
+This: this is referring to current component.
+c.	Action: what action need to be performed while loading.
+Q. What is attributes.
+A. This component is used to define properties of application, component, event , interface . it is to store the values. Name of attribute is mandatory. 
+Q. what is the Recursive Trigger and how to avoid?
+A. Suppose in trigger we are calling the one method and in that method we are performing Insert DML operation. Due to this Insert operation Trigger will fire again and execute method again. So it will looping to create records we need to avoid such looping by using Boolean variables.
+
+Q. What is mean by bulikfy trigger
+A. writing a trigger to handle multiple subject records.
+Q. get the 5th highest amount from the opportunity through SOQL.
+A. select id, amount from opportunity order by amount null last limit 1 offset 4
+Q. What are the reasons for data loss in Salesforce?
+A. Data loss may cause due to following reasons:Changing data and date-time
+Altering to percent,number and currency from other data types
+Changing from multi-select picklist, checkbox, auto number to other types
+Altering to multi-select picklist from any type except picklist
+Changing to auto-number except from text
+Changing from text-area to e-mail, phone, URL and text
+
+Q. order of execution in salesforce.
+Link for the order of execution:  https://www.youtube.com/watch?v=aQGfR1atq6Y
+
+Here is an order of execution in salesforce
+
+1)	The original record is loaded from the database.
+2)	System Validation Rules.
+3)	Before flow
+4)	Executes all before triggers.
+5)	Custom Validation rules.
+6)	Executes duplicate rules.
+7)	Saves the record to the database, but doesn’t commit yet.(record id will generated)
+8)	Executes all after triggers.( In after trigger is creating new record then entire flow will be happen for the newly created record)
+9)	Executes assignment rules.
+10)	Executes auto-response rules.
+11)	Executes workflow rules. If the record was updated with workflow field updates, fires before update triggers and after update triggers one more time (and only one more time), in addition to standard validations. Custom validation rules, flows, duplicate rules, processes, and escalation rules are not run again.
+12)	Process builder and auto lunched flows. In process builder if we update field of the same record then it will execute from step4 (before tiggers) to step13(process builder) again. If the process builder or auto lunched flow update a field on the other record or create a new then it will execute from step 1 to step 17 for the new record. Commit and post commit  will not run for the newly created until the original record commit and post commit steps complete.
+13)	Executes escalation rules.
+14)	Executes entitlement rules.
+15)	After flows.
+16)	Rollup summery->if the parent record has rollup summary fields, then it will execute from step 1 to step 17 for the master record. Commit and post commit will not run for the master record until the original record commit and post commit steps complete.
+17)	Executes Criteria Based Sharing evaluation.
+18)	Commits all DML operations to the database.
+19)	Executes post-commit logic, such as sending an email.
+
+ 
+
+
+Q. in the order of the execution of the salesforce if we have any field update then what will be the flow.
+A. If the record was updated with workflow field updates, fires before update triggers and after update triggers one more time (and only one more time), in addition to standard validations. Custom validation rules, flows, duplicate rules, processes, and escalation rules are not run again.
+
+Q. if the same record is update and triggered fired. After update in trigger if we try to update same record what will happen.
+A. It will trough the recursive loop. So it will looping to update the records we need to avoid such looping by using static Boolean variables.
+ 
+	 
+
+Apex trigger code:
+
+ 
+
+
+
+Q.in batch apex we are updating accounts and accounts have the update trigger. In trigger if we try to update related records like contacts what will happen?
+A.
+
+Q. If there is @testsetup exist in test class how do you call this method data from the testmethod.
+A. No need to class separately, The data will be available for the all test methods. If a test class contains a test setup method, the testing framework executes the test setup method first, before any test method in the class. Records that are created in a test setup method are available to all test methods in the test class and are rolled back at the end of test class executionss 
+
+Q. What is the difference between testMethod and @isTest in Salesforce?
+A. While creating a Test Method both act same, but @isTest is the enhanced version of 'TestMethod' keyword. In case of best practice, we always use @isTest annotation for creating a Test method.
+
+Q.How to Navigate from a Lightning Component to Another
+A. refer the dev doc interfaces.
+
+Q. Records to be loaded for the Controller Vf page when we click on the tab without any button page and also every time some DML has to happen on the records.
+A. class constructor will execute whenever VF page is loaded but we should not use DML in Constructor because using DML in constructor will slow down initialization of your object and using insert/update/delete in constructor is a bad practice. On <Apex: page> we have a atrritubute “action we can use this and call a metod from class.
+
+Ex:
+ VF : 
+<apex:page controller="pageController" action="{!doSomeDMLStuff}">
+APEX Class:
+
+public pageController{
+
+private boolean doDML;
+
+//constructor
+public pageController(){
+
+//run some logic to decide if you need to execute dml statements
+
+if(logic = true){
+
+doDML= true;
+}
+
+//the method called from the page action
+
+public pagereference doSomeDMLStuff(){
+
+if(doDML){
+//run DML statements
+
+}
+return null;
+}
+
+}
+}
+
+Q.What is relation ship b/w account and contacts? Why salesforce implemented like that?
+
+A.  Account and Contact behaves as master-detail but on UI it is a look-up relationship. This is because of business implementation. In the contact look up field cascade delete option enabled. To prevent records from being accidentally deleted, cascade-delete is disabled by default. Contact Salesforce Support to get the "Enables cascade delete on custom lookup relationships" feature enabled for your organization.
+
+Account comes from Opportunity. Suppose you Sale some product. You reach to a person and he fixed some deals with us, By this It becomes an Opportunity. Now that Opportunity purchased some products with you organization. Now he becomes an Account. After that Account reference some contacts with whom your organization can process deal. Now those reference are your organization Contact.
+
+In this case if that Account is no more purchasing products and can not continue with your organization. In that case you delete that account and it makes sense that their related contacts must be deleted. That is why this happens.
+
+Contact without Account as a parent are private and cannot be seen by other users in an organization. Because they are your personal contact persons like you have in your cell phone.
+
+Q. what is the use of test.starttest() and test.stoptest() in salesforce?
+A. Test.startTest() and Test.stopTest() exist primarily to allow you to reset the governor limits within the context of your test execution and to be able to test asynchronous methods. These two statements cannot be called more than once within a testMethod. They are not required to be used but in some situations may be critical we need use this. 
+Test.startTest and Test.stopTest are used for asynchronous apex, like Batch Apex and Future calls. Calling method(s) between Test.startTest and Test.stopTest ensure that any asynchronous transactions finish executing before Test.stopTest() exits. This means, that if you use System.asserts after Test.stopTest, you'll have an accurate representation of your test. Otherwise, if you called System.assert before Test.stopTest, or if you didn't use Test.startTest / Test.stopTest, then you couldn't gaurantee that the batch or future transaction was complete.
+
+Q. what is the use of Test.isrunningtest()?
+A. The Test.isRunningTest() method is used to identify, if the piece of code being executed is invoked from a Test class execution or from other artefacts such as a Trigger, Batch Job etc. Returns true if the code being executed is invoked from a test class otherwise returns a false.
+
+Q. what is use record set var?
+A. The recordSetVar attribute indicates that the page uses a list controller and the variable name of the record collection. This variable can be used to access data in the record collection.
+Using a standard list controller is very similar to using a standard controller. First you set the standardController attribute on the <apex:page> component, then you set the recordSetVar attribute on the same component.
+
+For example, to associate a page with the standard list controller for accounts, use the following markup:
+<apex:page standardController="Account" recordSetVar="accounts">
+
+Note
+When you use the standardController attribute on the <apex:page> tag, you can’t use the controller attribute at the same time.
+
+The recordSetVar attribute not only indicates that the page uses a list controller, it sets the variable name of the record collection. This variable can be used to access data in the record collection.
+
+Q. can we use More Than one controller class in a single VF page and can we use More Than one extension  class in a single VF page
+A. I don't think you can specify multiple custom controllers that way - the docs say that the controller attribute takes one class name.
+however, you can use extensions with custom controllers in the same way as standard controllers, e.g.
+<apex:page controller="MyCtrl" extensions="ext1, ext2">
+
+By using extensions we can use more apex class for controller and standard controller as well.
+
+Q. How to show or hide Lightning component in page for set of users.
+A. in lightning app builder, click on the component then under Set component Visibility add filter. We can add filter based on the record field condition or Device (mobile or desktop) and in advance we specify the list of users or profiles.
+On each component:
+o	Under component visibility, select "Add filter"
+o	Choose advanced
+o	Under "Field" click "Select"
+o	Select User, and then the desired field to use.
+This technique makes it possible to only show components for a small group of people without having to create new profiles.
+
+ 
+
+
+ Q. How to detect device in lighting component?
+A.  Using $Browser global value provider will return the information about hardware and OS of the browser accessing the application. We can check this value in component and also in controller. 
+In $browser.formfactor we can pass either Phone or desktop.  $browser.isPhone will return true if we are accessing application in phone. 
+
+ 
+
+Sample code:
+ 
+
+Q. How to detect a change in an attribute value and call a controller method based on change in lighting component?
+A. By using  Aura:valuechange system event we can identify the attribute value change and call a method based on the change. This event will give you old value and new value.
+
+In below example, initially Mybool attribute value is true. Once we click  change value button it call the method and value changed to false. Once attribute value changes <Aura:handler name = ‘change> event handler will invokes.
+
+ 
+
+Q. Use of aura:method?
+A. By using aura:method we can pass the data from patent to child component or child to parent component.
+Q. How can you define field level security in Lightning components?
+A. If we use lighting design system then by default sharing rules, field level security will apply. For field level security use interfaces Lightning:recordform(edit/view), Lightning:recordeditform(only edit), Lightning:recordviewform(only view).
+
+Q. what is lightning out?
+A. if we want to use lightning component on an external site, you need to use lightning out. The best advantage of lightning out is you can use lightning component inside the VF page. In lightning app we need to extend  “ltng:outapp” and in VF page we need add <Apex:includeLightning/> in VF page.
+
+
+Q. Can call one function from other function in Lightning Controller?
+A. Yes. By using syntax: $A.enqueAction(component.get(‘c.functionname));
+
+Q. How many ways we can pass data from Parent to child component?
+A. by using following ways we can pass data from parent to child components.
+o	Aura:Attribute
+o	Aure:method
+o	Application events
+Q. What is the difference between Whoid and Whatid?
+A. WhatId: ID of a related Account, Opportunity, Campaign, Case, or custom object. Labelis Opportunity/Account ID.
+WhoId: ID of a related Contact or Lead. If the WhoId refers to a lead, then the WhatId field must be empty. Label is Contact/Lead ID. If Shared Activities is enabled, this is the ID of a related Lead or primary Contact.
+Q. Cab we call future method from batch apex?
+A. No we can’t call future method from batch apex. If we try to call it will through to “To many future call” error.
+ 
+Q. difference b/w isBlank and isNull?
+A.  
+ISBLANK	ISNULL
+ISBLANK determines if an expression has value or not. If expression contain value then it will return False else it will return true.	ISNULL determines if an expression is null(blank) then return True else expression have vale then it will return False. 
+Syntax: ISBLANK(EXPESSION)	ISNULL(EXPESSION)
+It check the expression is blank and return true/false	It check the expression is null and return true/false
+It supports text fields	Text fields never be null, so using ISNULL for text fields always return false.
+For Numeric fields, ISBLANK function only return true if there is no value and not configured to treat blank fields  0’s .	Numeric fields supports.
+
+S NO	Formula function	Formula option	Field type	Result
+1	ISBLANK()	Treat blank fields as zeroes 	Text	TRUE
+2	ISBLANK()	Treat blank fields as blanks	Text	True    
+3	ISBLANK()	Treat blank fields as zeroes	Number	FALSE
+4	ISBLANK()	Treat blank fields as blanks	Number	TRUE
+5	ISNULL()	Treat blank fields as zeroes	Text	FALSE
+6	ISNULL()	Treat blank fields as blanks	Text	FALSE
+7	ISNULL()	Treat blank fields as zeroes	Number	FALSE
+8	ISNULL()	Treat blank fields as blanks	Number	TRUE
+
+
+Q. How to create workflow to be executed only for the record update not for the creation.
+A. While creating work flow, select evolution criterial as Create and every time edited. And rule criteria with formula not equal to new record(!ISNEW()) then it will not fire for newly created records and it will fire only for update records.
+
+ 
+
+Q. In workflow if we have created time-based workflow and trigger added to the queue. What will happen to the trigger if we deactivate the Workflow.
+A. Trigger will exist in the queue and action will executed at the specified time.
+
+Q. In workflow if we have created time-based workflow and trigger added to the queue. What will happen to the trigger if we delete the Workflow action.
+A. Trigger will exist in Queue but no action performed since the action will be removed from the workflow.
+
+Q. In workflow if we have created time-based workflow and trigger added to the queue. Now Can we delete the work flow?
+A. We can’t delete the work flow. If we want delete work flow in 3 ways. 
+1) Deactivate workflow and delete action then delete the work flow
+2) deactivate the workflow and remove the trigger from queue manually and delete workflow.
+3) Make the entry criteria of the record false then trigger will be removed from the queue and  delete the workflow.
+
+Q. how to pass list of records in lightning component to apex class?
+A.  Pass the  list of list records as string parameter(Pass your params as string using JSON.stringify function) from Client side controller and convert them in to list of record in Apex using JSON.deserialize.
+
+Ex: Controller
+SaveAccessRequest : function(component, event, helper) {
+    var ARLIlist = component.get("v.AccessRequestLineItems");
+    var action = component.get("c.getSaveRecord");
+    var accessreq = component.get("v.AccessRequest");
+var ARLIlistAsString = JSON.stringify(ARLIlist);
+var accessreqAsString = JSON.stringify(accessreq);
+    action.setParams({"ARAsString":accessreqAsString,
+                     "ARLIAsString":ARLIlistAsString});
+    $A.enqueueAction(action);
+}
+
+Apex code:
+
+@AuraEnabled
+public static void getSaveRecord(String ARAsString, String ARLIAsString){
+
+Access_Request__c AR = JSON.deserialize(ARAsString, Access_Request__c.class);
+List<Access_Request_Line_Item__c> ARLI = JSON.deserialize(ARLIAsString, List<Access_Request_Line_Item__c>.class);
+    Insert AR;
+    system.debug('====>'+ARLI);
+    for(Integer i=0; i<ARLI.size(); i++){
+        ARLI[i].Access_Request_ID__c = AR.id;
+    }
+    Insert ARLI;
+    system.debug('====>'+ARLI[0].id);
+
+}
+
+
+	
+
+QA:  Workflow and Trigger both are automated then why your going with Trigger?
+Ans:  
+o	Workflow will be executed  after insert and after update but where as in Triggers we have Before insert, Before update, before delete, after insert, after update, after delete and after undelete. 
+o	Workflow can perform only update on the record on which we are running workflow rule but in Trigger we can perform any DML  operation on any object. 
+o	Through work flow we can’t create a new record but in trigger we can perform all DML operations.
+Q: Process builder and Trigger both are automated then why your going with Trigger?
+Ans:  
+o	Process builder will be executed  after insert and after update but where as in Triggers we have Before insert, Before update, before delete, after insert, after update, after delete and after undelete. 
+o	Process Builder cannot handle delete and undelete DML. Whereas Apex triggers can handle all DML operations.
+o	An error reported in Process Builder is more generic which makes it difficult to find the origin of the error. With Apex triggers, exception handling can be made more specific.
+o	It is all or none in case of Process Builder failure. But with Apex triggers partial success is possible.
+o	Whenever a particular use case is not possible using Process Builder, consider using Apex triggers. For example, consider the below use case:-
+
+A custom field on a Parent object which is based on the field related to the max (roll up) among the child records. Since roll-up functionality involves insert, update, delete and undelete operations, using an Apex trigger is the best option in this scenario.
+Q. How to set up list view option in Lightning?
+A. 
+QA. Can we call future method from Triggers?
+Ans: Yes, you can call, Create Apex Handler class and create a future mEthod. Same method you can call from trigger. The maximum number of future method invocations per a 24-hour period is 250,000 or the number of user licenses in your organization multiplied by 200, whichever is greater. Suppose for web services callouts we need to set @Future(Callout= true). 
+QA. Can we call batch apex method from Triggers?
+Ans: Yes it is possible, we can call a batch apex from trigger but we should always keep in mind that we should not call batch apex from trigger each time as this will exceeds the governor limit this is because of the reason that we can only have 5 apex jobs queued or executing at a time.
+QA. Can we call schedule apex from trigger?
+QA. Can we call queueable apex from trigger?
+
+ QA. why future we can’t pass Sobject as parameter for the Future method?
+Ans: 	the reason why sObjects can’t be passed as arguments to future methods is because the sObject might change between the time you call the method and the time it executes. In this case, the future method will get the old sObject values and might overwrite them. To work with sObjects that already exist in the database, pass the sObject ID instead (or collection of IDs) and use the ID to perform a query for the most up-to-date record.
+Q. From Lightning component controller we are calling apex method but results are not coming whats are reasons event system.debug also not writing anything. How to degug?
+A.  The possible mistakes are,
+o	The apex class may not be used @Auraenabled for the method which is calling from JS Controller 
+o	Not perform the $A.enqueaction(Action)
+o	Passing the incorrect parameters
+Q. How to handle error in Apex for Lightning components in try-catch block?
+ A.  After calling the method from JS controller normally error messages will be handle with Setcallback (this, function(response)). Throw an AuraHandledException in the catch block. This allows you to provide a custom user-friendly error message.The AuraHandledException is sent back to the client with your custom message, Now handled this custom message in Setcallback() method.
+
+// Best practice: user-friendly error message provided by an AuraHandledException
+@AuraEnabled
+public static void triggerBasicAuraHandledError() {
+    try {
+        integer a = 1 / 0; // Division by zero causes exception
+    }
+    catch (Exception e) {
+        // "Convert" the exception into an AuraHandledException
+        throw new AuraHandledException('Darn it! Something went wrong: '
+            + e.getMessage());    
+    }
+}
+
+In JS controller , Byusing below code we can display to the Page.
+var errorMsg = action.getError()[0].message;
+                console.log(errorMsg);
+
+Q. what is the selected query exception in SF? 
+Q. what is the switch statement in SF?
+A. Apex provides a switch statement that tests whether an expression matches one of several values and branches accordingly.
+Syntax:
+switch on expression {
+    when value1 {		// when block 1
+        // code block 1
+    }	
+    when value2 {		// when block 2
+        // code block 2
+    }
+    when value3 {		// when block 3
+        // code block 3
+    }
+    when else {		  // default block, optional
+        // code block 4
+    }
+}
+Q.How to debug apex class? 
+A.Copy code from to sandbox and replicate the issue in sandbox and use system.debug statements to analyze the issue.
+Q. what are the primitive and non-primitive data types in SF?
+A. The non primitive data types in salesforce are the sobjects such as Standard objects and custom objects.
+QA. I have workflow rule to update contact amount 600 but on the contact we have a validation rule that if amount greater than to 500 through error. Now what will happen whether field will get update or error will through.
+A. Field will get update with 600 because, If the record was updated with workflow field updates, fires before update triggers and after update triggers one more time (and only one more time), in addition to standard validations will execute. Custom validation rules, flows, duplicate rules, processes, and escalation rules are not run again.
+
