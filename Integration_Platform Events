@@ -1,0 +1,301 @@
+Salesforce
+ Salesforce
+ integration
+ integration
+ scenarios
+ scenarios
+ interview
+ interview
+ questions
+ questions
+ www.prominentacademy.in
+ +91 98604 38743
+�
+�
+ Scenario:
+ On a custom Order__c object, the Tracking_ID__c is stored. Users
+ want to click a button that fetches live tracking info from a
+ courier API and displays it in a modal (Lightning component).
+ Question: How would you fetch live data from an external API
+ when a button is clicked on a Salesforce record page?
+ ✅
+ Answer:
+ This is where Apex + Lightning Component + API
+ callout come together. I would create an Apex
+ controller that performs the callout using the order’s
+ tracking ID. The Lightning component calls this
+ method when the user clicks a button.
+ 🔄
+ Lightning Flow:
+ Lead Inserted → Trigger calls future method
+ Future method sends address to API
+ API responds with corrected address → we update the
+ Lead
+ apex
+ public with sharing class TrackingController {
+ @AuraEnabled(cacheable=false)
+ public static String getTrackingStatus(String trackingId) {
+ HttpRequest req = new HttpRequest();
+ req.setEndpoint('https://api.shiptrack.com/track?tracking_id=' + trackingId);
+ req.setMethod('GET');
+ Http http = new Http();
+ HttpResponse res = http.send(req);
+ if (res.getStatusCode() == 200) {
+ Map<String, Object> result = (Map<String, Object>)
+ JSON.deserializeUntyped(res.getBody());
+ return String.valueOf(result.get('current_status'));
+ } else {
+ return 'Unable to fetch status';
+ }
+ }
+ }
+ Your next opportunity is closer than you think. Let’s get you there!
+ 📞
+ Don’t wait—call us at +91 98604 38743 today
+🧩
+ Scenario:
+ Your company uses an external HRMS system that exposes
+ employee data via OAuth 2.0. Your task is to integrate it with
+ Salesforce to fetch employee records once daily.
+ Question: How would you implement OAuth 2.0 flow in Salesforce
+ to call a protected external API?
+ ✅
+ Answer:
+ use Named Credentials with OAuth 2.0 — this is the
+ most secure and Salesforce-recommended
+ approach. Once the admin completes the OAuth
+ handshake, the access token is managed by
+ Salesforce.
+ 🔑
+ Setup Steps:
+ 1.Create Auth Provider in Salesforce with client ID, secret,
+ and callback URL
+ 2.Create Named Credential linked to the Auth Provider
+ 3.Use that Named Credential in your code
+ 
+Your next opportunity is closer than you think. Let’s get you there!
+ 📞
+ Don’t wait—call us at +91 98604 38743 today
+ apex
+ public class HRMSIntegrationJob implements Schedulable {
+    public void execute(SchedulableContext sc) {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:HRMS_Named_Credential/api/employees');
+        req.setMethod('GET');
+        Http http = new Http();
+        HttpResponse res = http.send(req);
+        if (res.getStatusCode() == 200) {
+            List<Map<String, Object>> employees = (List<Map<String, Object>>)
+ JSON.deserializeUntyped(res.getBody());
+            for (Map<String, Object> emp : employees) {
+                System.debug('Employee: ' + emp.get('name'));
+            }
+        } else {
+            System.debug('Failed to fetch employees: ' + res.getBody());
+        }
+    }
+ }
+🧩
+ Scenario:
+ Your Salesforce org needs to notify a downstream inventory
+ management system whenever an Opportunity is Closed-Won,
+ sending the list of products in that opportunity.
+ Question: How would you design a scalable, loosely-coupled
+ integration using Platform Events?
+ ✅
+ Answer:
+ Platform Event called OpportunityWonEvent__e with
+ opportunity ID and product info. The downstream system can
+ subscribe to it via CometD client or Mulesoft.
+ This decouples the systems — Salesforce just publishes an
+ event and forgets.
+ 📜
+ Steps:
+ 1.Define OpportunityWonEvent__e custom platform event
+ 2.Trigger on Opportunity → on Closed-Won → publish event
+ 3.External system subscribes to the event via streaming
+ 
+Your next opportunity is closer than you think. Let’s get you there!
+ 📞
+ Don’t wait—call us at +91 98604 38743 today
+ apex
+ trigger OpportunityWinEventTrigger on Opportunity (after update) {
+    List<OpportunityWonEvent__e> eventsToPublish = new List<OpportunityWonEvent__e>();
+    for (Opportunity opp : Trigger.new) {
+        Opportunity old = Trigger.oldMap.get(opp.Id);
+        if (opp.StageName == 'Closed Won' && old.StageName != 'Closed Won') {
+            String productList = ''; 
+            for (OpportunityLineItem oli : [SELECT Product2.Name FROM OpportunityLineItem
+ WHERE OpportunityId = :opp.Id]) {
+                productList += oli.Product2.Name + '; ';
+            }
+            OpportunityWonEvent__e evt = new OpportunityWonEvent__e(
+                OpportunityId__c = opp.Id,
+                ProductList__c = productList
+            );
+            eventsToPublish.add(evt);
+        }
+    }
+    if (!eventsToPublish.isEmpty()) {
+        EventBus.publish(eventsToPublish);
+    }
+ }
+🧩
+ Scenario:
+ After the warehouse updates an external system that an
+ order has shipped, Salesforce should receive this information
+ and update the Fulfillment_Status__c field on Order__c.
+ Question: How would you leverage Platform Events to receive
+ order fulfillment events from an external system?
+ ✅
+ Answer:
+ define a Platform Event—OrderFulfilledEvent__e—with relevant
+ fields (OrderNumber, FulfillmentStatus).
+ The external system (via middleware) publishes this event.
+ Salesforce subscribes to it via an Apex trigger and updates
+ the corresponding Order.
+ 📜
+ Logic:
+ 1.Platform Events are great for decoupled, event-driven
+ integrations. Salesforce doesn’t query external systems
+ repeatedly—instead, it reacts to events raised by the
+ warehouse system.
+ 
+Your next opportunity is closer than you think. Let’s get you there!
+ 📞
+ Don’t wait—call us at +91 98604 38743 today
+ apex
+ trigger HandleFulfillmentEvent on OrderFulfilledEvent__e (after insert) {
+    List<Order__c> toUpdate = new List<Order__c>();
+    for (OrderFulfilledEvent__e evt : Trigger.new) {
+        String ordNum = evt.OrderNumber__c;
+        String stat = evt.FulfillmentStatus__c;
+        Order__c[] ords = [SELECT Id FROM Order__c WHERE Order_Number__c = :ordNum
+ LIMIT 1];
+        if (!ords.isEmpty()) {
+            ords[0].Fulfillment_Status__c = stat;
+            toUpdate.add(ords[0]);
+        }
+    }
+    if (!toUpdate.isEmpty()) update toUpdate;
+ }
+🧩
+ Scenario:
+ Your client must submit invoicing data to a government portal
+ secured via JWT bearer token. Salesforce needs to generate the
+ JWT using a private key, call the token endpoint to receive the
+ access token, then send the invoice.
+ Question: How would you implement a JWT‑based authentication
+ flow using Apex to call a government API?
+ ✅
+ Answer:
+ Generating and sending JWTs in Apex takes care — I build the
+ header and claim, sign it using Crypto.sign, and then use that
+ JWT in the token endpoint call. Once the access token is
+ received, I send the invoice payload.
+ 
+Your next opportunity is closer than you think. Let’s get you there!
+ 📞
+ Don’t wait—call us at +91 98604 38743 today
+ apex
+ public class GovtJwtService {
+    public static String getAccessToken() {
+        String header = '{"alg":"RS256","typ":"JWT"}';
+        Map<String, Object> claimMap = new Map<String, Object>{
+            'iss' => 'YourClientID',
+            'aud' => 'https://gov.api/token',
+            'exp' => (Datetime.now().getTime()/1000) + 300
+        };
+        String claim = JSON.serialize(claimMap);
+        String jwt = EncodingUtil.base64Encode(Blob.valueOf(header)) + '.' +
+                     EncodingUtil.base64Encode(Blob.valueOf(claim));
+        Blob privateKey = Blob.valueOf('-----BEGIN PRIVATE KEY-----...');
+        Blob sig = Crypto.sign('RSA-SHA256', Blob.valueOf(jwt), privateKey);
+        jwt += '.' + EncodingUtil.base64Encode(sig);
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://gov.api/token');
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        req.setBody('grant_type=client_credentials&assertion=' + jwt);
+        HttpResponse res = new Http().send(req);
+        Map<String,Object> resp = (Map<String,Object>)
+ JSON.deserializeUntyped(res.getBody());
+        return (String)resp.get('access_token');
+    }
+ }
+🧩
+ Scenario:
+ You want Salesforce to react when a customer record is updated
+ in an external CRM (e.g., a custom app or external database). The
+ external system publishes those changes as platform events via
+ APIs or middleware.
+ Question: How do you use Change Data Capture (CDC) or
+ Platform Events to sync external changes into Salesforce in near
+ real-time?
+ ✅
+ Answer:
+ configure Salesforce to subscribe to CDC events via an
+ external listener or middleware because Salesforce cannot
+ directly subscribe to external systems' CDC. Instead, the
+ external CRM pushes a Platform Event to Salesforce using
+ CometD or API. Salesforce listens via an Apex trigger.
+ 🔧
+ Logic Flow:
+ 1.External system (or middleware) publishes a
+ CustomerChangeEvent__e when customer updates.
+ 2.Salesforce runs an Apex trigger on this event.
+ 3.Record is updated or created based on event payload.
+ 
+Your next opportunity is closer than you think. Let’s get you there!
+ 📞
+ Don’t wait—call us at +91 98604 38743 today
+ apex
+ trigger CustomerChangeHandler on CustomerChangeEvent__e (after insert) {
+    List<Account> updates = new List<Account>();
+    for (CustomerChangeEvent__e evt : Trigger.new) {
+        Account acc = [SELECT Id FROM Account WHERE External_Id__c = :evt.ExternalId__c
+ LIMIT 1];
+        acc.Name = evt.Name__c;
+        acc.Phone = evt.Phone__c;
+        updates.add(acc);
+    }
+    if (!updates.isEmpty()) update updates;
+ }
+Think your skills are enough?
+ Think again—these salesforce
+ questions could cost you your
+ Salesforce job.
+ Looking to crack your Salesforce interviews and land
+ your dream job? 
+�
+�
+ We've got you covered! At
+ Prominent Academy, we specialize in providing end-to
+end interview preparation that ensures you're not just
+ ready—but confident! 
+�
+�
+ 💡
+ What We Cover:
+ ✅
+ Mock Interviews tailored to Salesforce roles
+ ✅
+ Real-world scenario-based questions for Admin,
+ Developer, CPQ, and Architect tracks
+ ✅
+ Guidance on resume building and LinkedIn
+ ✅
+ optimization
+ In-depth coverage of Salesforce core concepts,
+ integrations, and projects
+ ✅
+ Latest Salesforce certification tips and tricks
+ ✅
+ Unlimited interview calls with top companies
+ 🎯
+ Whether you're a fresher or an experienced
+ professional transitioning to Salesforce, we provide
+ personalized guidance to help you shine in interviews and
+ stand out in the competitive market
+ call us at +91 98604 38743 to learn more.
+ 📞
